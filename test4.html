@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty & AI</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+        }
+        .header {
+            background-color: #ffffff;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header img {
+            height: 60px;
+        }
+        .header h1 {
+            font-size: 24px;
+            margin: 0 10px;
+            color: #ff6f61;
+        }
+        .nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #ff6f61;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .content {
+            text-align: center;
+            padding: 100px 20px;
+            background-color: #ffebee;
+        }
+        .content h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #ff6f61;
+        }
+        .content button {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: 2px solid #ff6f61;
+            background-color: #ffffff;
+            cursor: pointer;
+            color: #ff6f61;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .content button:hover {
+            background-color: #ff6f61;
+            color: #ffffff;
+        }
+        .categories {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        .categories h3 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #ff6f61;
+        }
+        .categories .category {
+            display: inline-block;
+            width: 150px;
+            margin: 0 20px;
+            text-align: center;
+        }
+        .categories .category img {
+            width: 100px;
+            height: 100px;
+        }
+        .categories .category p {
+            font-size: 16px;
+            margin-top: 10px;
+            color: #333;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+        .popup {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+        }
+        .popup h1 {
+            color: #ff6f61;
+            margin-bottom: 20px;
+        }
+        .popup label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+            color: #ff6f61;
+            font-size: 18px;
+        }
+        .popup button {
+            background-color: #ff6f61;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .popup button:hover {
+            background-color: #ff473f;
+        }
+        #result {
+            margin-top: 20px;
+            color: #333;
+        }
+        .close-btn {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; align-items: center;">
+            <img src="https://i.imgur.com/2lgAK7k.png" alt="Beauty & AI Logo" id="logo">
+            <h1>BEAUTY & AI</h1>
+        </div>
+        <div class="nav">
+            <a href="#">首頁</a>
+            <a href="#">檢測肌膚</a>
+            <a href="#">找產品</a>
+        </div>
+    </div>
+    <div class="content">
+        <h2>開始檢測您的肌膚</h2>
+        <button onclick="showPopup()">開始檢測</button>
+    </div>
+    <div class="categories">
+        <h3>產品分類</h3>
+        <div class="category">
+            <img src="https://cdn-icons-png.flaticon.com/512/3258/3258605.png" alt="粉底液">
+            <p>粉底液</p>
+        </div>
+        <div class="category">
+            <img src="https://cdn-icons-png.flaticon.com/512/2581/2581107.png" alt="防曬">
+            <p>防曬</p>
+        </div>
+        <div class="category">
+            <img src="https://cdn-icons-png.flaticon.com/512/4675/4675553.png" alt="化妝水">
+            <p>化妝水</p>
+        </div>
+        <div class="category">
+            <img src="https://cdn-icons-png.flaticon.com/512/3057/3057362.png" alt="乳液">
+            <p>乳液</p>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay">
+        <div class="popup" id="popup">
+            <h1>膚質狀態評估</h1>
+            <form id="skinAssessmentForm">
+                <div>
+                    <label for="sensitivity" style="text-align: left;">敏感度：</label><br>
+                    <button type="button" value="1" onclick="selectOption(this)">非常容易敏感</button>
+                    <button type="button" value="2" onclick="selectOption(this)">較容易敏感</button>
+                    <button type="button" value="3" onclick="selectOption(this)">正常</button>
+                    <button type="button" value="4" onclick="selectOption(this)">較少敏感</button>
+                    <button type="button" value="5" onclick="selectOption(this)">很少敏感</button>
+                </div>
+                <div style="margin-top: 20px;">
+                    <label for="hydration" style="text-align: left;">皮膚水分感覺：</label><br>
+                    <button type="button" value="1" onclick="selectOption(this)">非常乾燥</button>
+                    <button type="button" value="2" onclick="selectOption(this)">較乾燥</button>
+                    <button type="button" value="3" onclick="selectOption(this)">正常</button>
+                    <button type="button" value="4" onclick="selectOption(this)">較潤澤</button>
+                    <button type="button" value="5" onclick="selectOption(this)">非常潤澤</button>
+                </div>
+                <div style="margin-top: 20px;">
+                    <label for="oiliness" style="text-align: left;">皮膚油質感覺：</label><br>
+                    <button type="button" value="1" onclick="selectOption(this)">非常油膩</button>
+                    <button type="button" value="2" onclick="selectOption(this)">較油膩</button>
+                    <button type="button" value="3" onclick="selectOption(this)">正常</button>
+                    <button type="button" value="4" onclick="selectOption(this)">較清爽</button>
+                    <button type="button" value="5" onclick="selectOption(this)">非常清爽</button>
+                </div>
+                <button type="button" onclick="calculateSkinType()">提交</button>
+            </form>
+            <div id="result"></div>
+            <button class="close-btn" onclick="hidePopup()">關閉</button>
+        </div>
+    </div>
+
+    <script>
+        function showPopup() {
+            document.getElementById('overlay').style.display = 'flex';
+        }
+
+        function hidePopup() {
+            document.getElementById('overlay').style.display = 'none';
+        }
+
+        function selectOption(button) {
+            var selectedValue = button.value;
+            var buttons = button.parentNode.querySelectorAll('button');
+            buttons.forEach(function(btn) {
+                btn.style.backgroundColor = btn.value === selectedValue ? '#ff6f61' : '#ffcccb';
+            });
+        }
+
+        function calculateSkinType() {
+            var selectedButtons = document.querySelectorAll('button[style="background-color: rgb(255, 111, 97);"]');
+            var totalScore = 0;
+            selectedButtons.forEach(function(btn) {
+                totalScore += parseInt(btn.value);
+            });
+            var averageScore = totalScore / 3;
+
+            var resultText;
+            if (averageScore <= 2) {
+                resultText = "您的皮膚狀態：非常敏感且非常乾燥或非常油膩";
+            } else if (averageScore <= 3) {
+                resultText = "您的皮膚狀態：敏感且乾燥或油膩";
+            } else if (averageScore <= 4) {
+                resultText = "您的皮膚狀態：敏感且稍微乾燥或稍微油膩";
+            } else {
+                resultText = "您的皮膚狀態：較不敏感且正常水分與油脂";
+            }
+
+            var email = prompt("請輸入您的email:");
+            var output = "您的膚質檢測結果：" + resultText + "<br><br>根據您的膚質檢測，適合的產品有：<br>";
+            // 在這裡添加適合的產品
+            // output += "產品1<br>";
+            // output += "產品2<br>";
+            // output += "產品3<br>";
+            document.getElementById("result").innerHTML = output;
+        }
+    </script>
+</body>
+</html>
