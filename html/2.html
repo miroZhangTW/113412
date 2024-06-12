@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Recommender System</title>
+    <style>
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            z-index: 1000;
+        }
+        h1 {
+            color: #FF69B4; /* 粉色 */
+            font-weight: bold;
+            text-align: center; /* 将标题置中 */
+        }
+        h2 {
+            color:#20B2AA; /* 藍綠色 */
+        }
+        button {
+            background-color: #87ceeb; /* 淡藍色 */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button.cancel {
+            background-color: #ccc; /* 灰色底色 */
+        }
+        input[type="number"] {
+            background-color: #FFFFF0; /* 淡黃色 */
+            border: 1px solid #ccc;
+            padding: 8px;
+            margin: 5px;
+        }
+        #searchBar {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .product {
+            display: inline-block;
+            width: 200px;
+            margin: 10px;
+            text-align: center;
+        }
+        .product img {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 10px;
+        }
+        .product h3 {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>美妝小幫手</h1>
+
+    <!-- 搜索栏 -->
+    <div id="searchBar">
+        <input type="text" id="searchInput" placeholder="搜索...">
+        <button onclick="search()">搜索</button>
+    </div>
+
+    <!-- 彩妝用品分類按鈕 -->
+    <div>
+        <h2>彩妝用品</h2>
+        <button onclick="filterByCategory('眼影')">眼影</button>
+        <button onclick="filterByCategory('唇彩')">唇彩</button>
+        <button onclick="filterByCategory('粉底')">粉底</button>
+    </div>
+
+    <!-- 彩妝用品推薦彈出視窗 -->
+    <div id="categoryPopup" class="popup">
+        <h2>膚質</h2>
+        <button onclick="filterBySkinType('乾性')">乾性</button>
+        <button onclick="filterBySkinType('油性')">油性</button>
+
+        <h2>色系</h2>
+        <button onclick="filterByColor('自然色系')">自然色系</button>
+        <button onclick="filterByColor('明亮色系')">明亮色系</button>
+
+        <button class="cancel" onclick="closePopup()">取消</button> <!-- 取消按钮 -->
+    </div>
+
+    <!-- 價格查詢 -->
+    <div>
+        <h2>價格範圍</h2>
+        <input type="number" id="priceMin" placeholder="最低價格">
+        <input type="number" id="priceMax" placeholder="最高價格">
+        <button onclick="filterByPriceRange()">搜尋</button>
+    </div>
+
+    <!-- 顯示產品列表 -->
+    <div id="productList">
+        <!-- 這裡會動態顯示篩選後的產品列表 -->
+    </div>
+
+    <!-- JavaScript 腳本 -->
+    <script>
+        function filterByCategory(category) {
+            // 實作篩選產品列表的功能
+            // 這裡只是示例，實際操作需要根據您的後端邏輯來完成
+        }
+
+        function filterBySkinType(skinType) {
+            // 實作篩選產品列表的功能
+            // 這裡只是示例，實際操作需要根據您的後端邏輯來完成
+        }
+
+        function filterByColor(color) {
+            // 實作篩選產品列表的功能
+            // 這裡只是示例，實際操作需要根據您的後端邏輯來完成
+        }
+
+        function filterByPriceRange() {
+            var minPrice = parseFloat(document.getElementById('priceMin').value);
+            var maxPrice = parseFloat(document.getElementById('priceMax').value);
+            // 實作根據價格範圍篩選產品列表的功能
+            // 這裡只是示例，實際操作需要根據您的後端邏輯來完成
+        }
+
+        function closePopup() {
+            document.getElementById('categoryPopup').style.display = 'none';
+        }
+
+        function search() {
+            var searchTerm = document.getElementById('searchInput').value;
+            // 实现搜索功能
+            // 这里只是示例，实际操作需要根据您的后端逻辑来完成
+        }
+
+        // 彩妝用品分類按鈕點擊後顯示彈出視窗
+        document.addEventListener('DOMContentLoaded', function() {
+            var categoryPopup = document.getElementById('categoryPopup');
+            categoryPopup.style.display = 'block';
+            
+            // 生成产品方块
+            var productList = document.getElementById('productList');
+            var products = generateProducts(10); // 生成10个产品
+            products.forEach(function(product) {
+                var productDiv = document.createElement('div');
+                productDiv.classList.add('product');
+
+                var image = document.createElement('img');
+                image.src = product.imageUrl;
+                productDiv.appendChild(image);
+
+                var name = document.createElement('h3');
+                name.textContent = product.name;
+                productDiv.appendChild(name);
+
+                productList.appendChild(productDiv);
+            });
+        });
+
+        // 生成产品数据
+        function generateProducts(count) {
+            var products = [];
+            for (var i = 1; i <= count; i++) {
+                products.push({ name: "Product " + i, imageUrl: "image" + i + ".jpg" });
+            }
+            return products;
+        }
+    </script>
+</body>
+</html>

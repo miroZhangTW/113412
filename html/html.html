@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeautyAI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #skinAssessmentForm {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #ff6f61;
+        }
+        label {
+            font-weight: bold;
+            text-align: left;
+            display: block;
+            margin-bottom: 10px;
+            color: #ff6f61;
+            font-size: 22px;
+        }
+        button {
+            background-color: #ff6f61;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #ff473f;
+        }
+        #result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="skinAssessmentForm">
+        <h1>膚質狀態評估</h1>
+        <form id="skinAssessmentForm">
+            <div>
+                <label for="sensitivity">敏感度：</label><br>
+                <button type="button" value="1" onclick="selectOption(this)">非常容易敏感</button>
+                <button type="button" value="2" onclick="selectOption(this)">較容易敏感</button>
+                <button type="button" value="3" onclick="selectOption(this)">正常</button>
+                <button type="button" value="4" onclick="selectOption(this)">較少敏感</button>
+                <button type="button" value="5" onclick="selectOption(this)">很少敏感</button>
+            </div>
+            <div style="margin-top: 20px;">
+                <label for="hydration">皮膚水分感覺：</label><br>
+                <button type="button" value="1" onclick="selectOption(this)">非常乾燥</button>
+                <button type="button" value="2" onclick="selectOption(this)">較乾燥</button>
+                <button type="button" value="3" onclick="selectOption(this)">正常</button>
+                <button type="button" value="4" onclick="selectOption(this)">較潤澤</button>
+                <button type="button" value="5" onclick="selectOption(this)">非常潤澤</button>
+            </div>
+            <div style="margin-top: 20px;">
+                <label for="oiliness">皮膚油質感覺：</label><br>
+                <button type="button" value="1" onclick="selectOption(this)">非常油膩</button>
+                <button type="button" value="2" onclick="selectOption(this)">較油膩</button>
+                <button type="button" value="3" onclick="selectOption(this)">正常</button>
+                <button type="button" value="4" onclick="selectOption(this)">較清爽</button>
+                <button type="button" value="5" onclick="selectOption(this)">非常清爽</button>
+            </div>
+            <button type="button" onclick="calculateSkinType()">提交</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function selectOption(button) {
+            var selectedValue = button.value;
+            var buttons = button.parentNode.querySelectorAll('button');
+            buttons.forEach(function(btn) {
+                btn.style.backgroundColor = btn.value === selectedValue ? '#ff6f61' : '#ffcccb';
+            });
+        }
+
+        function calculateSkinType() {
+            var selectedButtons = document.querySelectorAll('button[style="background-color: rgb(255, 111, 97);"]');
+            var totalScore = 0;
+            selectedButtons.forEach(function(btn) {
+                totalScore += parseInt(btn.value);
+            });
+            var averageScore = totalScore / 3;
+
+            var resultText;
+            if (averageScore <= 2) {
+                resultText = "非常敏感且非常乾燥或非常油膩";
+            } else if (averageScore <= 3) {
+                resultText = "敏感且乾燥或油膩";
+            } else if (averageScore <= 4) {
+                resultText = "敏感且稍微乾燥或稍微油膩";
+            } else {
+                resultText = "較不敏感且正常水分與油脂";
+            }
+
+            var email = prompt("請輸入您的email:");
+            var output = "您的膚質檢測結果：" + resultText + "<br><br>根據您的膚質檢測，適合的產品有：<br>";
+            // 在這裡添加適合的產品
+            // output += "產品1<br>";
+            // output += "產品2<br>";
+            // output += "產品3<br>";
+            document.getElementById("result").innerHTML = output;
+        }
+    </script>
+</body>
+</html>
