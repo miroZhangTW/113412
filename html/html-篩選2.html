@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>篩選</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        .header {
+            background-color: #fff;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header img {
+            height: 60px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-left: 10px;
+            color: #ff6f61;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav ul li {
+            margin-right: 20px;
+        }
+
+        .nav ul li a {
+            text-decoration: none;
+            color: #ff6f61;
+            font-size: 16px;
+        }
+
+        .nav input[type="text"] {
+            padding: 5px 10px;
+            font-size: 16px;
+            border: 1px solid #ff6f61;
+            border-radius: 5px;
+        }
+
+        .nav button {
+            margin-left: 10px;
+            padding: 5px 15px;
+            font-size: 16px;
+            border: none;
+            background-color: #ff6f61;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav button:hover {
+            background-color: #ff473f;
+        }
+
+        main {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: #ffebee;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .content {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 600px;
+            margin: auto;
+        }
+
+        .content h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #ff6f61;
+        }
+
+        .content button {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: 2px solid #ff6f61;
+            background-color: #fff;
+            cursor: pointer;
+            color: #ff6f61;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+            margin-top: 20px;
+        }
+
+        .content button:hover {
+            background-color: #ff6f61;
+            color: #fff;
+        }
+
+        .dropdown {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .dropdown label {
+            font-size: 16px;
+            color: #ff6f61;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .dropdown select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: 2px solid #ff6f61;
+            background-color: #fff;
+            cursor: pointer;
+            color: #ff6f61;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #ff6f61;
+            color: #fff;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .popup h1 {
+            font-size: 24px;
+            color: #ff6f61;
+            margin-bottom: 20px;
+        }
+
+        .popup form {
+            text-align: left;
+        }
+
+        .popup label {
+            display: block;
+            margin-bottom: 10px;
+            color: #ff6f61;
+            font-size: 16px;
+        }
+
+        .popup input[type="text"] {
+            padding: 5px 10px;
+            font-size: 16px;
+            border: 1px solid #ff6f61;
+            border-radius: 5px;
+        }
+
+        .popup input[type="text"] {
+            width: 100%;
+            padding: 5px 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .popup button[type="button"] {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: 2px solid #ff6f61;
+            background-color: #fff;
+            cursor: pointer;
+            color: #ff6f61;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+            margin-top: 20px;
+        }
+
+        .popup button[type="button"]:hover {
+            background-color: #ff6f61;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    
+    <div class="header">
+        <div style="display: flex; align-items: center;">
+            <img src="https://i.imgur.com/fiXT7zV.jpeg" alt="Beauty Buddy Logo" id="logo">
+            <h1>Beauty Buddy</h1>
+        </div>
+        <div class="nav">
+            <ul>
+                <li><a href="file:///C:/Users/za914/OneDrive/Desktop/html-%E9%A6%96%E9%A0%816.html">首頁</a></li>
+                <li><a button onclick="showPopup()">膚況測驗</a></li>
+                <li><a href="file:///C:/Users/za914/OneDrive/Desktop/html-%E7%AF%A9%E9%81%B8.html">篩選條件</a></li>
+                <li><a href="#">產品匹配</a></li>
+            </ul>
+            <input type="text" id="searchInput" placeholder="搜索...">
+            <button onclick="search()">搜索</button>
+        </div>
+    </div>
+
+    <main>
+        <div class="content">
+            <h1>篩選產品</h1>
+            <div class="dropdown">
+                <label for="age">價格範圍:</label>
+                <select id="age">
+                    <option value="90-120">90-120...</option>
+                </select>
+            </div>
+            <div class="dropdown">
+                <label for="gender">品牌偏好:</label>
+                <select id="gender">
+                    <option value="Heme">Heme</option>
+                    <option value="1028">1028</option>
+                </select>
+            </div>
+            <div class="dropdown">
+                <label for="skin-type">產品類別:</label>
+                <select id="skin-type">
+                    <option value="sunprotection">防曬</option>
+                    <option value="liquidfoundation">粉底液</option>
+                    <option value="pressedpowder">粉餅</option>
+                </select>
+            </div>
+            <button>下一步</button>
+        </div>
+    </main>
+    <div class="overlay" id="overlay">
+        <div class="popup">
+            <h1>肌膚檢測</h1>
+            <form>
+                <div>
+                    <label for="userName" style="text-align: left;">代號：</label><br>
+                    <input type="text" id="userName" placeholder="輸入您的代號"><br>
+                </div>
+                <div>
+                    <label for="sensitivity">敏感度：</label>
+                    <div class="button-group">
+                        <button type="button" value="1" onclick="selectOption(this)">非常敏感</button>
+                        <button type="button" value="2" onclick="selectOption(this)">較敏感</button>
+                        <button type="button" value="3" onclick="selectOption(this)">正常</button>
+                        <button type="button" value="4" onclick="selectOption(this)">較少敏感</button>
+                        <button type="button" value="5" onclick="selectOption(this)">很少敏感</button>
+                    </div>
+                </div>
+                <div>
+                    <label for="hydration">皮膚水分感覺：</label>
+                    <div class="button-group">
+                        <button type="button" value="1" onclick="selectOption(this)">非常乾燥</button>
+                        <button type="button" value="2" onclick="selectOption(this)">較乾燥</button>
+                        <button type="button" value="3" onclick="selectOption(this)">正常</button>
+                        <button type="button" value="4" onclick="selectOption(this)">較潤澤</button>
+                        <button type="button" value="5" onclick="selectOption(this)">非常潤澤</button>
+                    </div>
+                </div>
+                <div>
+                    <label for="oiliness">皮膚油質感覺：</label>
+                    <div class="button-group">
+                        <button type="button" value="1" onclick="selectOption(this)">非常油膩</button>
+                        <button type="button" value="2" onclick="selectOption(this)">較油膩</button>
+                        <button type="button" value="3" onclick="selectOption(this)">正常</button>
+                        <button type="button" value="4" onclick="selectOption(this)">較清爽</button>
+                        <button type="button" value="5" onclick="selectOption(this)">非常清爽</button>
+                    </div>
+                </div>
+                <button type="button" onclick="calculateSkinType()">提交</button>
+            </form>
+            <div id="result"></div>
+            <button class="close-btn" onclick="hidePopup()">關閉</button>
+        </div>
+    </div>
+    <script>
+        function showPopup() {
+            document.getElementById('overlay').style.display = 'flex';
+        }
+
+        function selectOption(button) {
+            var selectedValue = button.value;
+            var buttons = button.parentNode.querySelectorAll('button');
+            buttons.forEach(function(btn) {
+                btn.style.backgroundColor = btn.value === selectedValue ? '#ff6f61' : '#ffcccb';
+            });
+        }
+
+        function calculateSkinType() {
+            var selectedButtons = document.querySelectorAll('button[style="background-color: rgb(255, 111, 97);"]');
+            var totalScore = 0;
+            selectedButtons.forEach(function(btn) {
+                totalScore += parseInt(btn.value);
+            });
+            var averageScore = totalScore / 3;
+
+            var resultText;
+            if (averageScore <= 2) {
+                resultText = "非常敏感且非常乾燥或非常油膩";
+            } else if (averageScore <= 3) {
+                resultText = "敏感且乾燥或油膩";
+            } else if (averageScore <= 4) {
+                resultText = "敏感且稍微乾燥或稍微油膩";
+            } else {
+                resultText = "較不敏感且正常水分與油脂";
+            }
+
+            var email = prompt("請輸入您的email:");
+            var output = "您的膚質檢測結果：" + resultText + "<br><br>根據您的膚質檢測，適合的產品有：<br>";
+            // 在這裡添加適合的產品
+            // output += "產品1<br>";
+            // output += "產品2<br>";
+            // output += "產品3<br>";
+            document.getElementById("result").innerHTML = output;
+        }
+
+        function hidePopup() {
+            document.getElementById('overlay').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
+
