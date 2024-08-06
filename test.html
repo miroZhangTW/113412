@@ -1,0 +1,144 @@
+<!--首頁(分開html.css.js) 
+    目前測試 header一直都在
+-->
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.12.0/headroom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.12.0/jQuery.headroom.min.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Buddy</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <a href="./" style="display: flex; align-items: center;">
+            <img src="https://imgur.com/Akgc4pd.jpeg" alt="Beauty Buddy Logo" id="logo">
+            <h1>Beauty Buddy</h1>
+        </a>
+        <div class="nav">
+            <ul>
+                <li><a href="http://beautybuddy.ddns.net/">首頁</a></li>
+                <li><a button onclick="showPopup()">膚況測驗</a></li>
+                <li><button onclick="window.location.href='http://beautybuddy.ddns.net/2'">篩選條件</button></li>
+                <li><a href="#">產品匹配</a></li>
+            </ul>
+            <input type="text" id="searchInput" placeholder="搜索...">
+            <button onclick="search()">搜索</button>
+        </div>
+    </div>
+    <div class="content">
+        <br><br><br>
+       
+        <h2>歡迎來到 Beauty Buddy</h2>
+        <div class="carousel" id="carousel">
+            <img src="https://dg9ugnb21lig7.cloudfront.net/uploads/award_group_image/29/1/29.jpg" class="active">
+            <img src="https://cms.cdn.91app.com/images/compress/1724/de04b8fc-57fb-47f7-8917-f88f30a79363-1716859032-4wub84ywwh_m_1280x600.webp">
+            <img src="https://cdn1.cybassets.com/s/files/20485/theme/74786/assets/img/1710382106_9d243a16_main_slider_item_4_lg.jpg?1710382106">
+            <div class="carousel-buttons">
+                <button onclick="previousSlide()">上一個</button>
+                <button onclick="nextSlide()">下一個</button>
+            </div>
+        </div>
+        <h2>開始檢測您的肌膚</h2>
+        <button onclick="showPopup()">開始檢測</button>
+    </div>
+    <div class="categories">
+        <h3>產品分類</h3>
+        <div class="category">
+            <img src="https://cdn-icons-png.flaticon.com/512/2581/2581107.png" alt="防曬">
+            <p>防曬</p>
+        </div>
+        <div class="category">
+            <img src="https://cdn-icons-png.flaticon.com/512/3258/3258605.png" alt="粉底液">
+            <p>粉底液</p>
+        </div>
+        <div class="category">
+            <img src="https://cdn-icons-png.flaticon.com/128/8946/8946622.png" alt="粉餅">
+            <p>粉餅</p>
+        </div>
+
+    </div>
+    <div class="product-info">
+        <h3>推薦產品</h3>
+        <div class="product">
+            <img src="https://cdn1.cybassets.com/media/W1siZiIsIjIwNDg1L3Byb2R1Y3RzLzM2NjcyMDUzLzE2NjEzMzI4NDBfM2I5NjFkNWE0YWJlNDM0NzJkZDIuanBlZyJdLFsicCIsInRodW1iIiwiNjAweDYwMCJdXQ.jpeg?sha=78a2cc0caf81593d" alt="Product 1">
+            <p>Heme 清透水感防曬凝膠 SPF50★★★★</p>
+            <button>查看詳情</button>
+        </div>
+        <div class="product">
+            <img src="https://cdn1.cybassets.com/media/W1siZiIsIjIwNDg1L3Byb2R1Y3RzLzM1NzIxNTEwLzE2NDE5NzA2NzhfYWQ3ZjE4NTVlYzcyYWE1YmY2ZDEuanBlZyJdLFsicCIsInRodW1iIiwiNjAweDYwMCJdXQ.jpeg?sha=356449d55b16033c" alt="Product 2">
+            <p>Heme 輕透柔光粉底液 SPF50+ ★★★</p>
+            <button>查看詳情</button>
+        </div>
+        <div class="product">
+            <img src="https://cdn1.cybassets.com/media/W1siZiIsIjIwNDg1L3Byb2R1Y3RzLzM1NjcxMzE0LzE2NDE5NzA2NTJfMTFjYjZhYmZmODkzZmY5MjhjYzQuanBlZyJdLFsicCIsInRodW1iIiwiNjAweDYwMCJdXQ.jpeg?sha=e88304f8c572542e" alt="Product 3">
+            <p>Heme 柔焦無瑕粉餅SPF20++</p>
+            <button>查看詳情</button>
+        </div>
+        <div class="product">
+            <img src="https://dg9ugnb21lig7.cloudfront.net/uploads/product_image/52565/1/_250x250_52565_w_250xh_250xfar_C.jpg" alt="Product 4">
+            <p>1028 傳明酸美白潤色防曬乳SPF50★★★</p>
+            <button>查看詳情</button>
+        </div>
+        <div class="product">
+            <img src="https://diz36nn4q02zr.cloudfront.net/webapi/imagesV3/Original/SalePage/8103135/1/638524152128770000?v=1?quality=30" alt="Product 5">
+            <p>1028 極上鏡 柔光超磁水粉底SPF45 PA++</p>
+            <button>查看詳情</button>
+        </div>
+        <div class="product">
+            <img src="https://diz36nn4q02zr.cloudfront.net/webapi/imagesV3/Original/SalePage/6681742/0/638519722761770000?v=1?quality=30" alt="Product 6">
+            <p>1028 空氣定格粉餅</p>
+            <button>查看詳情</button>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay">
+        <div class="popup">
+            <h1>肌膚檢測</h1>
+            <form>
+                <div>
+                    <label for="userName" style="text-align: left;">代號：</label><br>
+                    <input type="text" id="userName" placeholder="輸入您的代號"><br>
+                </div>
+                <div>
+                    <label for="sensitivity">敏感度：</label>
+                    <div class="button-group">
+                        <button type="button" value="1" onclick="selectOption(this)">非常敏感</button>
+                        <button type="button" value="2" onclick="selectOption(this)">較敏感</button>
+                        <button type="button" value="3" onclick="selectOption(this)">正常</button>
+                        <button type="button" value="4" onclick="selectOption(this)">較少敏感</button>
+                        <button type="button" value="5" onclick="selectOption(this)">很少敏感</button>
+                    </div>
+                </div>
+                <div>
+                    <label for="hydration">皮膚水分感覺：</label>
+                    <div class="button-group">
+                        <button type="button" value="1" onclick="selectOption(this)">非常乾燥</button>
+                        <button type="button" value="2" onclick="selectOption(this)">較乾燥</button>
+                        <button type="button" value="3" onclick="selectOption(this)">正常</button>
+                        <button type="button" value="4" onclick="selectOption(this)">較潤澤</button>
+                        <button type="button" value="5" onclick="selectOption(this)">非常潤澤</button>
+                    </div>
+                </div>
+                <div>
+                    <label for="oiliness">皮膚油質感覺：</label>
+                    <div class="button-group">
+                        <button type="button" value="1" onclick="selectOption(this)">非常油膩</button>
+                        <button type="button" value="2" onclick="selectOption(this)">較油膩</button>
+                        <button type="button" value="3" onclick="selectOption(this)">正常</button>
+                        <button type="button" value="4" onclick="selectOption(this)">較清爽</button>
+                        <button type="button" value="5" onclick="selectOption(this)">非常清爽</button>
+                    </div>
+                </div>
+                <button type="button" onclick="calculateSkinType()">提交</button>
+            </form>
+            <div id="result"></div>
+            <button class="close-btn" onclick="hidePopup()">關閉</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

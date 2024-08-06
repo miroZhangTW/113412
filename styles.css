@@ -1,0 +1,402 @@
+/*首頁*/
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
+/* 可选：隐藏 header 的动画效果 */
+.hide {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+body {
+    margin: 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+.header img {
+    height: 60px;
+}
+
+.header h1 {
+    font-size: 24px;
+    margin-left: 10px;
+    color: #ff6f61;
+}
+
+.nav {
+    padding-left: 0;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.nav ul li {
+    margin-right: 20px;
+}
+
+.nav ul li a {
+    text-decoration: none;
+    color: #ff6f61;
+    font-size: 16px;
+}
+
+.nav input[type="text"] {
+    padding: 5px 10px;
+    font-size: 16px;
+    border: 1px solid #ff6f61;
+    border-radius: 5px;
+}
+
+.nav button {
+    margin-left: 10px;
+    padding: 5px 15px;
+    font-size: 16px;
+    border: none;
+    background-color: #ff6f61;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.nav button:hover {
+    background-color: #ff473f;
+}
+
+.content {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #ffebee;
+}
+
+.content h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #ff6f61;
+}
+
+.content button {
+    padding: 10px 20px;
+    font-size: 18px;
+    border: 2px solid #ff6f61;
+    background-color: #fff;
+    cursor: pointer;
+    color: #ff6f61;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.content button:hover {
+    background-color: #ff6f61;
+    color: #fff;
+}
+
+.carousel {
+    position: relative;
+    width: 100%;
+    margin: 0 auto 50px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1; /* 确保轮播图在其他元素之下 */
+}
+
+.carousel img {
+    width: 100%;
+    display: none;
+    height: 500px;
+    object-fit: cover;
+}
+
+.carousel img.active {
+    display: block;
+}
+
+.carousel-buttons {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+}
+
+.carousel-buttons button {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.categories {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.categories h3 {
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #ff6f61;
+}
+
+.categories .category {
+    display: inline-block;
+    width: 150px;
+    margin: 0 20px;
+    text-align: center;
+}
+
+.categories .category img {
+    width: 100px;
+    height: 100px;
+}
+
+.categories .category p {
+    font-size: 16px;
+    margin-top: 10px;
+    color: #333;
+}
+
+.product-info {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.product-info h3 {
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #ff6f61;
+}
+
+.product-info .product {
+    display: inline-block;
+    width: 250px;
+    margin: 0 20px 30px;
+    text-align: center;
+    border: 2px solid #ff6f61;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-info .product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.product-info .product img {
+    width: 150px;
+    height: 150px;
+}
+
+.product-info .product p {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #333;
+}
+
+.product-info .product button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #ff6f61;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.product-info .product button:hover {
+    background-color: #ff473f;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* 确保弹窗在所有元素之上 */
+}
+
+.popup {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 90%;
+    max-width: 600px;
+}
+
+.popup h1 {
+    color: #ff6f61;
+    margin-bottom: 20px;
+}
+
+.popup label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+    color: #ff6f61;
+    font-size: 18px;
+    text-align: left;
+}
+
+.popup button {
+    background-color: #ff6f61;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.popup button:hover {
+    background-color: #ff473f;
+}
+
+.popup .close-btn {
+    margin-top: 20px;
+}
+
+#result {
+    margin-top: 20px;
+    color: #333;
+    font-size: 16px;
+    text-align: left;
+}
+
+/* 新增的CSS媒體查詢 */
+@media screen and (max-width: 768px) {
+    .header {
+        position: static; /* 不固定在頂部 */
+        flex-direction: column;
+    }
+
+    .carousel {
+        margin-top: 100px; /* 保持與 header 的距離 */
+    }
+    .nav {
+        margin-left: -20px; /* 負的左邊距，向左移動整個區塊 */
+    }
+    
+    .nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav ul li {
+        margin: 10px 0;
+    }
+
+    .nav input[type="text"], .nav button {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .content {
+        padding: 20px 10px;
+    }
+
+    .content h2 {
+        font-size: 24px;
+    }
+
+    .content button {
+        font-size: 16px;
+    }
+
+    .categories {
+        padding: 20px 10px;
+    }
+
+    .categories h3 {
+        font-size: 20px;
+    }
+
+    .categories .category {
+        width: 100px;
+        margin: 10px;
+    }
+
+    .categories .category img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .product-info {
+        padding: 20px 10px;
+    }
+
+    .product-info h3 {
+        font-size: 20px;
+    }
+
+    .product-info .product {
+        width: 150px;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .product-info .product img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .product-info .product p {
+        font-size: 14px;
+    }
+
+    .product-info .product button {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+
+    .popup {
+        padding: 20px;
+    }
+
+    .popup h1 {
+        font-size: 20px;
+    }
+
+    .popup label {
+        font-size: 16px;
+    }
+
+    .popup button {
+        font-size: 14px;
+        padding: 5px 10px;
+        margin: 5px;
+    }
+
+    .popup .close-btn {
+        margin-top: 10px;
+    }
+}
