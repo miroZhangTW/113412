@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員登入 - Beauty Buddy</title>
+    <link rel="stylesheet" type="text/css" href="login.css">
+    <script src="login.js" defer></script>
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; align-items: center;">
+            <img src="https://imgur.com/Akgc4pd.jpeg" alt="Beauty Buddy Logo" id="logo">
+            <h1>Beauty Buddy</h1>
+        </div>
+        <div class="nav">
+            <ul>
+                <li><a href="http://beautybuddy.ddns.net/">首頁</a></li>
+                <li><a href="#" onclick="showPopup()">肌膚檢測</a></li>
+                <li><a href="http://beautybuddy.ddns.net/2">篩選條件</a></li>
+                <li><a href="http://beautybuddy.ddns.net/3">產品匹配</a></li>
+                <li><a href="login.html">登入/註冊</a></li>
+            </ul>
+            <input type="text" id="searchInput" placeholder="搜索...">
+            <button onclick="search()">搜索</button>
+        </div>
+    </div>
+    <div class="container">
+        <h2>會員登入</h2>
+        <form id="loginForm">
+            <label for="email">電子郵件</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">密碼</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">登入</button>
+        </form>
+        <div class="switch-link">
+            <p>還沒有帳號？<a href="register.html">立即註冊</a></p>
+        </div>
+    </div>
+</body>
+</html>
