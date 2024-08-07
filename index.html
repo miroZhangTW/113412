@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員系統</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>登入</h2>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="用戶名" required>
+            <input type="password" id="password" placeholder="密碼" required>
+            <button type="submit">登入</button>
+        </form>
+        <p>還沒有帳號？ <a href="#" id="registerLink">註冊</a></p>
+
+        <div id="registerFormContainer" style="display: none;">
+            <h2>註冊</h2>
+            <form id="registerForm">
+                <input type="text" id="newUsername" placeholder="用戶名" required>
+                <input type="password" id="newPassword" placeholder="密碼" required>
+                <input type="email" id="email" placeholder="電子郵件" required>
+                <button type="submit">註冊</button>
+            </form>
+            <p>已經有帳號了？ <a href="#" id="loginLink">登入</a></p>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
