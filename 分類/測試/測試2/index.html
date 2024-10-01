@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>防曬</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; align-items: center;">
+            <img src="https://imgur.com/Akgc4pd.jpeg" alt="Beauty Buddy Logo" id="logo">
+            <h1>Beauty Buddy</h1>
+        </div>
+        <div class="nav">
+            <ul>
+                <li><a href="http://beautybuddy.ddns.net/">首頁</a></li>
+                <li><a button onclick="showPopup()">肌膚檢測</a></li>
+                <li><a button onclick="window.location.href='http://beautybuddy.ddns.net/2'">篩選條件</button></li>
+                <li><a href="http://beautybuddy.ddns.net/3">產品匹配</a></li>
+                <li><a href="http://beautybuddy.ddns.net/4">登入/註冊</a></li>
+            </ul>
+            <input type="text" id="searchInput" placeholder="搜索...">
+            <button onclick="search()">搜索</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <aside class="sidebar">
+            <h2>商品分類</h2>
+            <ul>                
+                
+                <li>全部分類</li>
+                <li><a href="http://beautybuddy.ddns.net/6">防曬</a></li>
+                <li><a href="http://beautybuddy.ddns.net/7">粉底液</a></li>
+                <li><a href="http://beautybuddy.ddns.net/8">粉餅</a></li>
+                <li>眼妝</li>
+                <li>唇彩/護唇膏</li>
+                <li>美妝工具</li>
+            </ul>
+        </aside>
+
+        <section class="products">
+            <div class="sort-options">
+                <li class="sunscreen-title">防曬&emsp;</li> <!-- 添加 class -->
+                
+                <button>網格視圖</button>
+                <button>列表視圖</button>
+                <select>
+                    <option>相關度</option>
+                    <option>價格低到高</option>
+                </select>
+            </div>
+
+            <div class="product-grid">
+                <!-- 隨便放置一些示範圖片 -->
+                <div class="product-item">
+                    <img src="https://via.placeholder.com/150" alt="產品 1">
+                    <p>產品 1</p>
+                    <p>NT$238</p>
+                </div>
+                <div class="product-item">
+                    <img src="https://via.placeholder.com/150" alt="產品 2">
+                    <p>產品 2</p>
+                    <p>NT$212</p>
+                </div>
+                <div class="product-item">
+                    <img src="https://via.placeholder.com/150" alt="產品 3">
+                    <p>產品 3</p>
+                    <p>NT$153</p>
+                </div>
+                <div class="product-item">
+                    <img src="https://via.placeholder.com/150" alt="產品 4">
+                    <p>產品 4</p>
+                    <p>NT$204</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    
+</body>
+</html>
