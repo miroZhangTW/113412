@@ -1,47 +1,29 @@
 const express = require('express');
-const nodemailer = require('nodemailer');
 const bodyParser = require('body-parser');
+const { exec } = require('child_process');
 
 const app = express();
-const port = 3000;
+app.use(bodyParser.json()); // 解析 JSON 資料
 
-// Middleware
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+// 定義一個 POST 路由，處理表單提交
+app.post('/submit', (req, res) => {
+    const { field1, field2 } = req.body;  // 從前端接收資料
 
-// Serve the main page
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+    // 調用 Python 程式
+    const pythonProcess = exec(`python3 db.py ${field1} ${field2}`);
+
+    pythonProcess.stdout.on('data', (data) => {
+        console.log(data.toString());
+        res.send('資料已成功提交到資料庫');
+    });
+
+    pythonProcess.stderr.on('data', (data) => {
+        console.error(data.toString());
+        res.status(500).send('資料提交失敗');
+    });
 });
 
-// Handle form submission
-app.post('/send', (req, res) => {
-  const { email, subject, message } = req.body;
-
-  // Set up Nodemailer
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: '11046078@ntub.edu.tw',
-      pass: 'xumo1115' // 替换为你的应用程序专用密码
-    }
-  });
-
-  const mailOptions = {
-    from: email,
-    to: 'za91410@gmail.com', // 替换为接收邮件的地址
-    subject: subject,
-    text: message
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return res.status(500).send(error.toString());
-    }
-    res.send('Email sent: ' + info.response);
-  });
-});
-
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+// 啟動伺服器，並監聽在埠號 3000
+app.listen(3000, () => {
+    console.log('伺服器運行於 http://localhost:3000');
 });
