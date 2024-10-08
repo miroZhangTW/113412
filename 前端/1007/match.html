@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeautyBuddy</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/match.css') }}">
+    <script src="{{ url_for('static', filename='js/match.js') }}"></script>
+    
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="https://i.imgur.com/fiXT7zV.jpeg" alt="Logo">
+            <a href="http://beautybuddy.ddns.net/">
+                <h1>Beauty Buddy</h1>
+            </a>
+        </div>
+        <div class="title">
+            <h1>產品匹配</h1>
+        </div>
+        <div class="products">
+            <div class="product">
+                <img src="https://s.yimg.com/zp/MerchandiseImages/00DF68C731-Product-22490746.jpg" alt="Product 1">
+                <h3>1028 持久著迷無瑕光粉底</h3>
+                <p>效果: 溫和、清爽</p>
+                <p>使用季節: 夏</p>
+                <p>使用環境: 悶熱、氣候潮濕</p>
+                <p class="ai-score">AI 評分: 8.5/10</p>
+                <p class="usage-info">使用資訊: 這個產品適合用於...</p>
+                <a href="http://beautybuddy.ddns.net/des">
+                    <button>查看詳情</button>
+                </a>
+            </div>
+            <div class="product">
+                <img src="https://s.yimg.com/zp/MerchandiseImages/50F469109B-Product-22972326.jpg" alt="Product 2">
+                <h3>1028 Hold it！顏不油終超持輕密粉底</h3>
+                <p>效果： 服貼、持久、均勻膚色、明亮</p>
+                <p>使用季節： 夏</p>
+                <p>使用環境： 悶熱、冷氣房</p>
+                <p class="ai-score">AI 評分: 7.8/10</p>
+                <p class="usage-info">使用資訊: 這個產品適合用於...</p>
+                <button>查看詳情</button>
+            </div>
+            <div class="product">
+                <img src="https://s.yimg.com/zp/MerchandiseImages/0C0A41C436-SP-14559557.jpg" alt="Product 3">
+                <h3>1028 極上鏡 柔光超磁水粉底SPF45 PA++</h3>
+                <p>效果： 毛孔遮瑕、防曬、霧面</p>
+                <p>使用季節: 春</p>
+                <p>使用環境： 溫度舒適</p>
+                <p class="ai-score">AI 評分: 8.2/10</p>
+                <p class="usage-info">使用資訊: 這個產品適合用於...</p>
+                <a href="">
+                    <button>查看詳情</button>
+                </a>
+            </div>
+        </div>
+        <div class="feedback">
+            <h2>回傳信箱</h2>
+            <input type="email" placeholder="輸入你的電子郵件">
+            <button>提交</button>
+        </div>
+    </div>
+</body>
+</html>

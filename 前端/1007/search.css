@@ -1,0 +1,330 @@
+/* 首页 */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 97%;
+    background-color: #fff;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
+
+/* 可选：隐藏 header 的动画效果 */
+.hide {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+body {
+    margin: 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+.header img {
+    height: 60px;
+}
+
+.header h1 {
+    font-size: 24px;
+    margin-left: 10px;
+    color: #ff6f61;
+}
+
+/* 导航栏样式 */
+.nav {
+    padding-left: 0; /* 去除导航栏左侧的内边距 */
+}
+
+/* 导航栏中的 ul 样式 */
+.nav ul {
+    list-style: none; /* 移除列表项前面的默认项目符号 */
+    display: flex; /* 将 ul 设为弹性盒布局，使得 li 元素横向排列 */
+    margin: 0; /* 移除 ul 的默认外边距 */
+    padding: 0; /* 移除 ul 的默认内边距 */
+}
+
+/* 导航栏中的每个 li 样式 */
+.nav ul li {
+    margin-right: 20px; /* 给每个列表项 li 添加右边距，使得列表项之间有间隔 */
+}
+
+/* 导航栏中的每个 a 样式 */
+.nav ul li a {
+    text-decoration: none; /* 移除链接的下划线 */
+    color: #ff6f61; /* 将链接文本颜色设置为浅红色 */
+    font-size: 16px; /* 将链接文本大小设置为 16 像素 */
+}
+
+/* 导航栏中的文本输入框样式 */
+.nav input[type="text"] {
+    padding: 5px 45px; /* 给文本输入框设置内边距 */
+    font-size: 16px; /* 将文本输入框的字体大小设置为 16 像素 */
+    border: 1px solid #ff6f61; /* 将文本输入框的边框设置为浅红色，宽度为 1 像素 */
+    border-radius: 5px; /* 将文本输入框的边角设置为圆角，半径为 5 像素 */
+}
+
+/* 导航栏中的按钮样式 */
+.nav button {
+    margin-left: 15px; /* 给按钮的左侧添加外边距，使得它与左边的元素有间隔 */
+    padding: 5px 15px; /* 给按钮设置内边距 */
+    font-size: 16px; /* 将按钮文本的字体大小设置为 16 像素 */
+    border: none; /* 移除按钮的边框 */
+    background-color: #ff6f61; /* 将按钮的背景颜色设置为浅红色 */
+    color: #fff; /* 将按钮文本的颜色设置为白色 */
+    cursor: pointer; /* 将鼠标指针设置为手形，表示可点击 */
+    border-radius: 5px; /* 将按钮的边角设置为圆角，半径为 5 像素 */
+    transition: background-color 0.3s; /* 设置背景颜色变化的过渡效果，持续时间为 0.3 秒 */
+}
+
+/* 当鼠标悬停在按钮上时的样式 */
+.nav button:hover {
+    background-color: #ff473f; /* 当鼠标悬停在按钮上时，将按钮的背景颜色更改为较深的红色 */
+}
+
+/* 使用者选单的样式 */
+.user-menu {
+    position: relative; /* 相对定位，用于显示下拉选单 */
+    display: inline-block; /* 使其内联显示 */
+}
+
+/* 使用者名称链接的样式 */
+.user-link {
+    color: #ff6f61; /* 设置字体颜色为浅红色 */
+    font-size: 16px; /* 设置字体大小 */
+    text-decoration: none; /* 移除下划线 */
+    cursor: pointer; /* 鼠标变为手型 */
+}
+
+/* 下拉选单内容样式 */
+.dropdown-content {
+    display: none; /* 默认隐藏下拉选单 */
+    position: absolute; /* 绝对定位，下拉选单相对于父元素 */
+    background-color: #f9f9f9; /* 背景颜色设置为浅灰色 */
+    min-width: 160px; /* 最小宽度设置为 160px */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
+    z-index: 1; /* 确保下拉选单位于其他元素上方 */
+}
+
+/* 下拉选单中的每个选项链接样式 */
+.dropdown-content a {
+    color: black; /* 字体颜色设置为黑色 */
+    padding: 12px 16px; /* 内边距上下12px，左右16px */
+    text-decoration: none; /* 移除下划线 */
+    display: block; /* 使每个选项占据整行 */
+}
+
+/* 下拉选单中的选项悬停效果 */
+.dropdown-content a:hover {
+    background-color: #f1f1f1; /* 悬停时背景变为更浅的灰色 */
+}
+
+/* 使用者选单悬停时显示下拉选单 */
+.user-menu:hover .dropdown-content {
+    display: block; /* 当鼠标悬停时，显示下拉选单 */
+}
+
+.content {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #ffebee;
+}
+
+.content h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #ff6f61;
+}
+
+.content button {
+    padding: 10px 20px;
+    font-size: 18px;
+    border: 2px solid #ff6f61;
+    background-color: #fff;
+    cursor: pointer;
+    color: #ff6f61;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.content button:hover {
+    background-color: #ff6f61;
+    color: #fff;
+}
+
+.carousel {
+    position: relative;
+    width: 100%;
+    margin: 0 auto 50px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1; /* 确保轮播图在其他元素之下 */
+}
+
+.carousel img {
+    width: 100%;
+    display: none;
+    height: 500px;
+    object-fit: cover;
+}
+
+.carousel img.active {
+    display: block;
+}
+
+.carousel-buttons {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+}
+
+.carousel-buttons button {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.categories {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.categories h3 {
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #ff6f61;
+}
+
+.category-link {
+    text-decoration: none;  /* 移除链接的下划线 */
+    color: inherit;        /* 继承父元素的颜色 */
+}
+
+.categories .category {
+    display: inline-block;
+    width: 150px;
+    margin: 0 20px;
+    text-align: center;
+}
+
+.categories .category img {
+    width: 100px;
+    height: 100px;
+}
+
+.categories .category p {
+    font-size: 16px;
+    margin-top: 10px;
+    color: #333;
+}
+
+.product-info {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.product-info h3 {
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #ff6f61;
+}
+
+.product-info .product {
+    display: inline-block;
+    width: 250px;
+    margin: 0 20px 30px;
+    text-align: center;
+    border: 2px solid #ff6f61;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-info .product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.product-info .product img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+
+.product-info .product p {
+    margin-top: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+.product-info .product .btn {
+    margin-top: 15px;
+    padding: 5px 10px;
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.product-info .product .btn:hover {
+    background-color: #ff473f;
+}
+
+/* 登录和注册页面 */
+.login-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+    color: #ff6f61;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-container button:hover {
+    background-color: #ff473f;
+}
+
+.message {
+    margin: 20px 0;
+    color: #ff6f61; /* 使消息的颜色与主题一致 */
+    font-weight: bold; /* 使消息字体加粗 */
+}
