@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeautyBuddy - 產品詳情</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/des.css') }}">
+    <script src="{{ url_for('static', filename='js/des.js') }}"></script>
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; align-items: center;">
+            <img src="https://imgur.com/Akgc4pd.jpeg" alt="Beauty Buddy Logo" id="logo">
+            <h1>Beauty Buddy</h1>
+        </div>
+        <div class="nav">
+            <ul>
+                <li><a href="http://beautybuddy.ddns.net/">首頁</a></li>
+                <li><a href="http://beautybuddy.ddns.net/filter">篩選條件</a></li>   
+                
+                {% if username %}
+                    <li class="user-menu">
+                        <a href="#" class="user-link">哈囉 {{ username }}&#128512</a>
+                        <div class="dropdown-content">
+                            <a href="/profile">個人檔案</a>
+                            <a href="/logout">登出</a>
+                        </div>
+                    </li>
+                {% else %}
+                    <li><a href="http://beautybuddy.ddns.net/login">登入/註冊</a></li>
+                {% endif %}
+            </ul>
+
+            <form action="/products" method="GET" style="display: inline;">
+                <input type="text" name="keyword" id="searchInput" placeholder="搜索..." required>
+                <button type="submit">搜索</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+
+    
+
+        <div class="product-detail">
+            <img src="{{ product.img }}" alt="Product Image">
+            <div class="product-info">
+                <h2>{{ product.name }}</h2>
+                <p><strong>品牌:</strong> {{ product.brand }}</p>
+                <p><strong>類別:</strong> {{ product.category }}</p>
+                <p><strong>價格:</strong> {{ product.sizeprice }}</p>
+                <p><strong>描述:</strong> {{ product.description }}</p>
+                <p><strong>評分:</strong> {{ product.rating }}/10</p>
+                <button onclick="window.location.href='{{ product.purchase_link }}'">前往網站購買</button>
+                <button class="favorite-button" onclick="toggleFavorite()">
+                    <span class="favorite-icon"></span>&#128151收藏
+                </button>
+            </div>
+        </div>
+
+        <div class="product-reviews">
+            <h3>評論區</h3>
+            {% if keywords %}
+                <div class="review-card">
+                <pclass="review-content">產品評論分析 :  {{ keywords }}</p>
+            {% else %}
+                <p>暫時沒有評論無法分析。</p>
+            {% endif %}
+            
+            {% if reviews %}
+                <div class="reviews">
+                    {% for review in reviews %}
+                        <div class="review-card">
+                            <p class="review-content">{{ review }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>目前尚無評論。</p>
+            {% endif %}
+        </div>
+        
+        
+        
+
+
+    </div>
+</body>
+</html>
