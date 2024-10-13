@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員登入 - Beauty Buddy</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; align-items: center;">
+            <img src="https://imgur.com/Akgc4pd.jpeg" alt="Beauty Buddy Logo" id="logo">
+            <h1>Beauty Buddy</h1>
+        </div>
+        <div class="nav">
+            <ul>
+                <li><a href="http://beautybuddy.ddns.net/">首頁</a></li>
+                <li><a href="http://beautybuddy.ddns.net/filter">篩選條件</a></li>   
+                <li><a href="http://beautybuddy.ddns.net/login">登入/註冊</a></li>
+            </ul>
+
+            
+            <form action="/products" method="GET" style="display: inline;">
+                <input type="text" name="keyword" id="searchInput" placeholder="搜索..." required>
+                <button type="submit">搜索</button> <!-- 將按鈕設置為提交表單 -->
+            </form>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flashes">
+            {% for category, message in messages %}
+             <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+
+    <div class="container">
+        <h2>會員登入</h2>
+        <form id="loginForm" method="POST">
+            <label for="email">電子郵件</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">密碼</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">登入</button>
+        </form>
+        <div class="switch-link">
+            <p>還沒有帳號？<a href="http://beautybuddy.ddns.net/register">立即註冊</a></p>
+        </div>
+    </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+</body>
+</html>

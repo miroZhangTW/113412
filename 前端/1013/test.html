@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Reviews</title>
+</head>
+<body>
+    <h1>Reviews by miro</h1>
+    <ul>
+        {% if reviews %}
+            {% for review in reviews %}
+                <li>
+                    <strong>Username:</strong> {{ review.username }} <br>
+                    <strong>Date:</strong> {{ review.created_date }} <br>
+                    <strong>Review:</strong> {{ review.simplified_review }}
+                </li>
+            {% endfor %}
+        {% else %}
+            <p>No reviews found for miro.</p>
+        {% endif %}
+    </ul>
+</body>
+</html>
