@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Beauty Buddy{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sun.css') }}">
+    <script src="{{ url_for('static', filename='js/sun.js') }}"></script>
+</head>
+<body>
+    {% include 'header.html' %}
+
+    <div class="main-content">
+        {% block content %}
+        <!-- 各頁面的主要內容將插入於此 -->
+        {% endblock %}
+    </div>
+</body>
+</html>
