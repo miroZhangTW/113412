@@ -1,0 +1,174 @@
+body {
+    margin: 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+.header a {
+    text-decoration: none;
+    color: inherit; /* 確保鏈接文本顏色與周圍文本相同 */
+}
+
+.container {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto; /* 居中容器 */
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.header {
+    background-color: #fff;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+.header h1 {
+    font-size: 30px;
+    margin-left: 10px;
+    color: #ff6f61;
+}
+
+.header img {
+    height: 60px;
+    margin-right: 10px;
+}
+
+.title {
+    text-align: center;
+    font-size: 24px; /* 增大標題字型 */
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.result-message {
+    border-radius: 10px; /* 圓角效果 */
+    padding: -1px; /* 內邊距 */
+    text-align: center; /* 文字置中 */
+    margin-top: 20px; /* 上邊距 */
+    font-size: 15px; /* 增大字體大小 */
+    color: #665857; /* 字體顏色 */
+    margin: 0; /* 去掉預設邊距 */
+
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 陰影效果 */
+}
+
+
+a {
+    text-decoration: none; /* 隱藏下劃線 */
+}
+
+.product-list {
+    margin-top: 20px;
+}
+
+.products {
+    display: grid; /* 使用Grid布局 */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 自動填充 */
+    gap: 16px; /* 項目間距 */
+}
+
+.product {
+    padding: 17px;
+    border: 2px solid #ff6f61;
+    border-radius: 15px;
+    background-color: #fff;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-match {
+    color: #423e3e; /* 設定文字顏色 */
+}
+
+.product-match .product {
+    border: 1px solid #ccc; /* 設定產品邊框顏色 */
+}
+
+
+.product-image {
+    width: 160px; /* 固定寬度 */
+    height: 160px; /* 固定高度 */
+    object-fit: cover; /* 保持圖片比例並裁剪以適應容器 */
+    border-radius: 10px; /* 圓角效果 */
+    margin-bottom: 10px; /* 圖片和文字之間的間距 */
+}s
+
+.product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.product h3 {
+    font-size: 1.3em;
+    margin: 10px 0;
+    color: #ff6f61;
+}
+
+.product p {
+    margin: 0 0 10px 0;
+    color: #917f7e;
+}
+
+.product button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #ff6f61;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: auto; /* 將按鈕推到底部 */
+}
+
+.product button:hover {
+    background-color: #ff473f;
+}
+
+.feedback {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.feedback input[type="email"] {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ff6f61;
+    border-radius: 5px;
+}
+
+.feedback button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #ff6f61;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.feedback button:hover {
+    background-color: #ff473f;
+}
+
+@media screen and (max-width: 768px) {
+    .feedback input[type="email"] {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .product {
+        width: 100%;
+    }
+}

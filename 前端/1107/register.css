@@ -1,0 +1,184 @@
+/* 基本样式 */
+body {
+    background-color: #f8f8f8;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+}
+
+/* 保持 header 样式一致 */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 97%;
+    background-color: #fff;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
+
+.header img {
+    height: 60px;
+}
+
+.header h1 {
+    font-size: 24px;
+    margin-left: 10px;
+    color: #ff6f61;
+}
+
+.nav {
+    padding-left: 0;
+}
+
+.nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.nav ul li {
+    margin-right: 20px;
+}
+
+.nav ul li a {
+    text-decoration: none;
+    color: #ff6f61;
+    font-size: 16px;
+}
+
+.nav input[type="text"] {
+    padding: 5px 45px;
+    font-size: 16px;
+    border: 1px solid #ff6f61;
+    border-radius: 5px;
+}
+
+.nav button {
+    margin-left: 15px;
+    padding: 5px 15px;
+    font-size: 16px;
+    border: none;
+    background-color: #ff6f61;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.nav button:hover {
+    background-color: #ff473f;
+}
+
+/* 注册页样式 */
+.container {
+    padding: 80px 20px 20px; /* 上方距离 header 的高度 */
+    text-align: center;
+    background-color: #ffebee; /* 页面背景色 */
+}
+
+.container h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #ff6f61;
+}
+
+.container form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #fff; /* 表单背景色 */
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.container label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ff6f61;
+    font-size: 18px;
+    text-align: left;
+    width: 100%;
+}
+
+.container input[type="text"],
+.container input[type="email"],
+.container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ff6f61;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.container button {
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    background-color: #ff6f61;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.container button:hover {
+    background-color: #ff473f;
+}
+
+/* 錯誤提醒 */
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-success {
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+
+/* 媒体查询 */
+@media screen and (max-width: 768px) {
+    .header {
+        position: static;
+        flex-direction: column;
+    }
+
+    .container {
+        padding: 20px 10px;
+    }
+
+    .container h2 {
+        font-size: 24px;
+    }
+
+    .container input[type="text"],
+    .container input[type="email"],
+    .container input[type="password"] {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .container button {
+        font-size: 16px;
+        padding: 8px 15px;
+    }
+}
