@@ -1,0 +1,798 @@
+/*首頁*/
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 97%;
+    background-color: #fff;
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
+
+/* 可选：隐藏 header 的动画效果 */
+.hide {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+body {
+    margin: 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+.header img {
+    height: 60px;
+}
+
+.header h1 {
+    font-size: 24px;
+    margin-left: 10px;
+    color: #ff6f61;
+}
+
+/* 導航欄樣式 */
+.nav {
+    padding-left: 0; /* 去除導航欄左側的內邊距 */
+}
+
+/* 導航欄中的 ul 樣式 */
+.nav ul {
+    list-style: none; /* 移除列表項前面的默認項目符號 */
+    display: flex; /* 將 ul 設為彈性盒布局，使得 li 元素橫向排列 */
+    margin: 0; /* 移除 ul 的默認外邊距 */
+    padding: 0; /* 移除 ul 的默認內邊距 */
+}
+
+/* 導航欄中的每個 li 樣式 */
+.nav ul li {
+    margin-right: 20px; /* 給每個列表項 li 添加右邊距，使得列表項之間有間隔 */
+}
+
+/* 導航欄中的每個 a 樣式 */
+.nav ul li a {
+    text-decoration: none; /* 移除鏈接的下劃線 */
+    color: #ff6f61; /* 將鏈接文本顏色設置為淺紅色 */
+    font-size: 16px; /* 將鏈接文本大小設置為 16 像素 */
+}
+
+/* 導航欄中的文本輸入框樣式 */
+.nav input[type="text"] {
+    padding: 5px 45px; /* 給文本輸入框設置內邊距 */
+    font-size: 16px; /* 將文本輸入框的字體大小設置為 16 像素 */
+    border: 1px solid #ff6f61; /* 將文本輸入框的邊框設置為淺紅色，寬度為 1 像素 */
+    border-radius: 5px; /* 將文本輸入框的邊角設置為圓角，半徑為 5 像素 */
+}
+
+/* 導航欄中的按鈕樣式 */
+.nav button {
+    margin-left: 15px; /* 給按鈕的左側添加外邊距，使得它與左邊的元素有間隔 */
+    padding: 5px 15px; /* 給按鈕設置內邊距 */
+    font-size: 16px; /* 將按鈕文本的字體大小設置為 16 像素 */
+    border: none; /* 移除按鈕的邊框 */
+    background-color: #ff6f61; /* 將按鈕的背景顏色設置為淺紅色 */
+    color: #fff; /* 將按鈕文本的顏色設置為白色 */
+    cursor: pointer; /* 將鼠標指針設置為手形，表示可點擊 */
+    border-radius: 5px; /* 將按鈕的邊角設置為圓角，半徑為 5 像素 */
+    transition: background-color 0.3s; /* 設置背景顏色變化的過渡效果，持續時間為 0.3 秒 */
+}
+
+/* 當鼠標懸停在按鈕上時的樣式 */
+.nav button:hover {
+    background-color: #ff473f; /* 當鼠標懸停在按鈕上時，將按鈕的背景顏色更改為較深的紅色 */
+}
+
+a {
+    text-decoration: none; /* 隱藏下劃線 */
+    color: #ff6f61; /* 設置字體顏色為淺紅色 */
+
+}
+
+/* 使用者選單的樣式 */
+.user-menu {
+    position: relative; /* 相對定位，用於顯示下拉選單 */
+    display: inline-block; /* 使其內聯顯示 */
+}
+
+/* 使用者名稱連結的樣式 */
+.user-link {
+    color: #ff6f61; /* 設置字體顏色為淺紅色 */
+    font-size: 16px; /* 設置字體大小 */
+    text-decoration: none; /* 移除下劃線 */
+    cursor: pointer; /* 鼠標變為手型 */
+}
+
+/* 下拉選單內容樣式 */
+.dropdown-content {
+    display: none; /* 預設隱藏下拉選單 */
+    position: absolute; /* 絕對定位，下拉選單相對於父元素 */
+    background-color: #f9f9f9; /* 背景顏色設置為淺灰色 */
+    min-width: 160px; /* 最小寬度設置為 160px */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* 添加陰影效果 */
+    z-index: 1; /* 確保下拉選單位於其他元素上方 */
+}
+
+/* 下拉選單中的每個選項連結樣式 */
+.dropdown-content a {
+    color: #ff6f61; /* 字體顏色設置為黑色 */
+    padding: 12px 16px; /* 內邊距上下12px，左右16px */
+    text-decoration: none; /* 移除下劃線 */
+    display: block; /* 使每個選項佔據整行 */
+}
+
+/* 下拉選單中的選項懸停效果 */
+.dropdown-content a:hover {
+    background-color: #f1f1f1; /* 懸停時背景變為更淺的灰色 */
+}
+
+/* 使用者選單懸停時顯示下拉選單 */
+.user-menu:hover .dropdown-content {
+    display: block; /* 當鼠標懸停時，顯示下拉選單 */
+}
+/* 滑過結束 */
+
+
+.button-group button.selected {
+    background-color: #ff6f61;
+    color: #fff;
+}
+
+.button-group button {
+    background-color: #ffcccb;
+    color: #000;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.button-group button:hover {
+    background-color: #e95e53; /* 懸停時的顏色變化 */
+}
+
+
+/* 請先登入 */
+.start-button, .login-prompt {
+    text-align: center; /* 内容居中 */
+    text-decoration: none; /* 去掉下划线 */
+    display: inline-block; /* 使元素为块级 */
+    font-size: 16px; /* 字体大小 */
+    margin: 4px 2px; /* 外边距 */
+    cursor: pointer; /* 鼠标悬停时变成手形光标 */
+    padding: 10px 20px;
+    font-size: 18px;
+    border: 2px solid #ff6f61;
+    background-color: #fff;
+    cursor: pointer;
+    color: #ff6f61;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+
+.start-button:hover {
+    background-color: #ddd; /* 懸停時的按鈕顏色 */
+}
+
+
+.login-prompt a:hover {
+    text-decoration: underline;
+}
+
+
+.content {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #ffebee;
+}
+
+.content h2 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #ff6f61;
+}
+
+.content button {
+    padding: 10px 20px;
+    font-size: 18px;
+    border: 2px solid #ff6f61;
+    background-color: #fff;
+    cursor: pointer;
+    color: #ff6f61;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.content button:hover {
+    background-color: #ff6f61;
+    color: #fff;
+}
+
+.carousel {
+    position: relative;
+    width: 100%; /* 設置為 100% 以占滿整個視窗寬度 */
+    height: 600px; /* 設置固定高度，根據需要調整 */
+    overflow: hidden; /* 隱藏溢出內容 */
+    margin: 0; /* 去掉外邊距 */
+    padding: 0; /* 去掉內邊距 */
+    box-sizing: border-box; /* 確保 padding 和邊框不影響總寬度 */
+}
+
+.carousel img {
+    width: 100%; /* 使圖片自適應容器寬度 */
+    height: 100%; /* 使圖片填滿容器高度 */
+    object-fit: cover; /* 確保圖片不失真且填滿整個容器 */
+    display: none; /* 隱藏所有圖片 */
+}
+
+.carousel img.active {
+    display: block; /* 顯示當前活動圖片 */
+}
+
+.carousel-buttons {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    background-color: transparent; /* 或者其他顏色，保持一致 */
+    border: none; /* 去掉邊框 */
+    color: #fff; /* 確保顏色與原本一致，這裡使用白色作為範例 */
+}
+
+.carousel-buttons button {
+    background-color: rgba(0, 0, 0, 0.5); /* 按鈕背景顏色 */
+    color: #fff; /* 按鈕文字顏色 */
+    border: none; /* 去掉邊框 */
+    padding: 10px 20px; /* 調整內邊距 */
+    cursor: pointer; /* 改變鼠標指標 */
+}
+
+.carousel-buttons button:hover {
+    background-color: rgba(0, 0, 0, 0.7); /* 鼠標懸停時的顏色變化 */
+}
+
+
+
+.categories {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.categories h3 {
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #ff6f61;
+}
+
+.category-link {
+    text-decoration: none;  /* 移除鏈接的下劃線 */
+    color: inherit;        /* 繼承父元素的顏色 */
+}
+
+.categories .category {
+    display: inline-block;
+    width: 150px;
+    margin: 0 20px;
+    text-align: center;
+}
+
+.categories .category img {
+    width: 100px;
+    height: 100px;
+}
+
+.categories .category p {
+    font-size: 16px;
+    margin-top: 10px;
+    color: #333;
+}
+
+#logo {
+    width: 50px; /* 可以根據需求調整大小 */
+}
+
+.product-item {
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin: 10px;
+    display: inline-block;
+    width: 30%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.product-item h3 {
+    color: #ff6f61;
+}
+
+.product-info {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.product-info h3 {
+    font-size: 24px;
+    margin-bottom: 30px;
+    color: #ff6f61;
+}
+
+
+.product-info .product {
+    display: inline-block; /* 使产品卡片横向排列 */
+    width: 250px; /* 固定宽度 */
+    margin: 0 20px 30px; /* 上下边距，左右间距 */
+    text-align: center; /* 文本居中 */
+    border: 2px solid #ff6f61; /* 添加边框 */
+    border-radius: 10px; /* 圆角 */
+    padding: 20px; /* 内边距 */
+    background-color: #fff; /* 背景色为白色 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+    transition: transform 0.3s, box-shadow 0.3s; /* 添加过渡效果 */
+}
+
+.product-info .product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.product-info .product img {
+    width: 150px;
+    height: 150px;
+}
+
+.product-info .product p {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #333;
+}
+
+.product-info .product button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #ff6f61;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.product-info .product button:hover {
+    background-color: #ff473f;
+}
+
+.overlay {
+    display: none; /* 初始隱藏 */
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 背景遮罩 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* 確保在最上層 */
+}
+
+.popup {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 90%; /* 最大寬度設置為90% */
+    max-height: 90%; /* 最大高度設置為90% */
+    overflow-y: auto; /* 允許垂直滾動 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* 陰影效果 */
+    position: relative; /* 相對定位 */
+}
+
+
+.popup h1 {
+    color: #ff6f61;
+    margin-bottom: 20px;
+    text-align: center; /* 使標題置中 */
+
+}
+
+.popup label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+    color: #ff6f61;
+    font-size: 18px;
+    text-align: left;
+}
+
+.popup button {
+    background-color: #ff6f61;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.popup button:hover {
+    background-color: #ff473f;
+}
+
+
+/* 調整彈出窗口的表單樣式 */
+.popup form {
+    display: flex; /* 使用 flexbox 以便於對齊 */
+    flex-direction: column; /* 垂直排列表單項 */
+    align-items: center; /* 將表單項目置中 */
+}
+
+
+.popup .close-btn {
+    margin-top: 20px;
+    text-align: center; /* 將按鈕的文本置中 */
+    display: block; /* 使按鈕在新行顯示 */
+    margin-left: auto; /* 使按鈕在容器中水平居中 */
+    margin-right: auto; /* 使按鈕在容器中水平居中 */
+}
+.popup form div {
+    margin-bottom: 15px;
+    text-align: center; /* 將 label 和按鈕置中 */
+}
+
+/* 調整表單項目的樣式 */
+.button-group {
+    display: flex;
+    flex-wrap: wrap; /* 允許換行 */
+    justify-content: center; /* 按鈕居中 */
+}
+
+.button-group button {
+    margin: 5px; /* 按鈕之間的間距 */
+    padding: 10px 15px; /* 按鈕內邊距 */
+    border: none;
+    border-radius: 5px;
+    background-color: #ff6f61; /* 按鈕背景色 */
+    color: white; /* 按鈕字體顏色 */
+    cursor: pointer; /* 游標指針 */
+    transition: background-color 0.3s; /* 動畫效果 */
+}
+
+/* 結果顯示區域樣式 */
+#result {
+    margin-top: 20px;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border: 1px solid #ff473f;
+    border-radius: 5px;
+    text-align: left;
+}
+
+/* 产品容器样式 */
+.products {
+    display: flex;
+    flex-wrap: wrap; /* 允许换行 */
+    justify-content: center; /* 居中对齐产品 */
+    padding: 20px; /* 内边距 */
+    margin: 0 auto; /* 自动外边距居中 */
+}
+
+/* 每个产品卡片的样式 */
+.product-info {
+    background-color: #ffffff; /* 背景色为白色 */
+    border: 1px solid #ddd; /* 边框颜色 */
+    border-radius: 10px; /* 圆角 */
+    margin: 15px; /* 外边距 */
+    padding: 20px; /* 内边距 */
+    width: 250px; /* 固定宽度 */
+    text-align: center; /* 文本居中 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 添加过渡效果 */
+}
+
+/* 产品卡片悬停效果 */
+.product-info:hover {
+    transform: translateY(-5px); /* 向上移动 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* 增强阴影效果 */
+}
+
+/* 产品图片样式 */
+.product-image {
+    width: 100%; /* 使图片充满容器 */
+    height: auto; /* 自适应高度 */
+    border-radius: 8px; /* 圆角 */
+}
+
+/* 产品名称样式 */
+.product-info h2 {
+    font-size: 18px; /* 字体大小 */
+    margin: 10px 0; /* 上下外边距 */
+    color: #ff6f61; /* 颜色 */
+}
+
+/* 产品品牌和评分样式 */
+.product-info p {
+    font-size: 14px; /* 字体大小 */
+    color: #666; /* 灰色 */
+    margin: 5px 0; /* 上下外边距 */
+}
+
+/* 查看详情链接样式 */
+.product-info a {
+    display: inline-block; /* 块级链接 */
+    margin-top: 10px; /* 上边距 */
+    padding: 10px 15px; /* 内边距 */
+    background-color: #ff6f61; /* 背景颜色 */
+    color: #fff; /* 文字颜色 */
+    border-radius: 5px; /* 圆角 */
+    text-decoration: none; /* 去掉下划线 */
+    transition: background-color 0.3s; /* 添加过渡效果 */
+}
+
+/* 查看详情链接悬停效果 */
+.product-info a:hover {
+    background-color: #ff473f; /* 悬停颜色 */
+}
+
+/* 圖片 */
+/* 父容器 */
+.image-container {
+    display: flex; /* 使用 Flexbox */
+    justify-content: center; /* 水平置中 */
+    align-items: center; /* 垂直置中 */
+    flex-direction: column; /* 讓子元素垂直排列 */
+    height: 100%; /* 父容器高度，可根據需求設置 */
+    margin: 20px 0; /* 增加上下間距 */
+}
+
+/* 圖片樣式 */
+#imagePreview {
+    display: none; /* 預設隱藏圖片 */
+    width: 200px; /* 設定寬度 */
+    height: auto; /* 讓高度自適應寬度 */
+    border: 2px solid #ddd; /* 添加淡色邊框 */
+    border-radius: 10px; /* 圓角效果 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 添加陰影 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* 添加過渡效果 */
+}
+
+/* 當滑鼠懸停時的效果 */
+#imagePreview:hover {
+    transform: scale(1.05); /* 放大效果 */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* 加強陰影效果 */
+}
+
+
+
+
+/* 測驗片 */
+.card-container {
+    display: flex;
+    flex-wrap: wrap; /* 允許卡片換行 */
+    gap: 20px; /* 卡片之間的間距 */
+    justify-content: center; /* 水平置中 */
+    text-align: center; /* 置中 */
+
+}
+
+.card-container a {
+    color: inherit; /* 隱藏超連結顏色 */
+    text-decoration: none; /* 隱藏底線 */
+}
+
+.parent-container {
+    display: flex;               /* 使用 Flexbox */
+    flex-direction: column;      /* 垂直排列 */
+    justify-content: center;      /* 垂直置中 */
+    align-items: center;         /* 水平置中 */
+    height: 100vh;              /* 確保父容器有一定高度 */
+}
+
+.card {
+    background-color: #f9f9f9; /* 卡片背景顏色 */
+    border: 1px solid #ddd; /* 邊框 */
+    border-radius: 8px; /* 邊角圓滑 */
+    padding: 15px; /* 內邊距 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 陰影效果 */
+    width: calc(33.333% - 20px); /* 每行三個卡片 */
+    box-sizing: border-box; /* 包含內邊距和邊框在內 */
+}
+
+.card img.product-image {
+    width: 100%; /* 卡片內的圖片佔滿整個卡片 */
+    height: auto; /* 高度自動，保持比例 */
+    border-radius: 4px; /* 圓角 */
+}
+
+.card h4 {
+    margin: 10px 0 5px; /* 標題的上下邊距 */
+}
+
+.card p {
+    margin: 5px 0; /* 內部段落的邊距 */
+}
+
+
+
+/* 響應式設計 */
+@media screen and (max-width: 768px) {
+    .card {
+        width: calc(50% - 20px); /* 每行兩個卡片 */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .card {
+        width: 100%; /* 每行一個卡片 */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .header {
+        position: static; /* 不固定在頂部 */
+        flex-direction: column;
+    }
+
+    .carousel {
+        margin-top: 100px; /* 保持與 header 的距離 */
+    }
+    .nav {
+        margin-left: -20px; /* 負的左邊距，向左移動整個區塊 */
+    }
+    
+    .nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .nav ul li {
+        margin: 10px 0;
+    }
+
+    .nav input[type="text"], .nav button {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .content {
+        padding: 20px 10px;
+    }
+
+    .content h2 {
+        font-size: 24px;
+    }
+
+    .content button {
+        font-size: 16px;
+    }
+
+    .categories {
+        padding: 20px 10px;
+    }
+
+    .categories h3 {
+        font-size: 20px;
+    }
+
+    .categories .category {
+        width: 100px;
+        margin: 10px;
+    }
+
+    .categories .category img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .product-info {
+        padding: 20px 10px;
+    }
+
+    .product-info h3 {
+        font-size: 20px;
+    }
+
+    .product-info .product {
+        width: 150px;
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .product-info .product img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .product-info .product p {
+        font-size: 14px;
+    }
+
+    .product-info .product button {
+        font-size: 14px;
+        padding: 5px 10px;
+    }
+
+    .popup {
+        padding: 20px;
+    }
+
+    .popup h1 {
+        font-size: 20px;
+    }
+
+    .popup label {
+        font-size: 16px;
+    }
+
+    .popup button {
+        font-size: 14px;
+        padding: 5px 10px;
+        margin: 5px;
+    }
+
+    .popup .close-btn {
+        margin-top: 10px;
+    }
+}
+@media (max-width: 768px) {
+    .nav ul li {
+        margin-right: 10px;
+    }
+    .header img {
+        height: 40px;
+    }
+    .content h2 {
+        font-size: 24px;
+    }
+}
+
+.footer-content {
+    display: flex;    
+    justify-content: space-between; 
+    align-items: center;    
+    padding: 10px;  
+}
+
+.footer-content p {
+    margin: 0 10px;     
+    color: gray;
+}
+
+.advertisement {
+    margin: 20px auto;
+    text-align: center;
+    background-color: #f1f1f1; /* Light gray background */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    max-width: 100%; /* Ensures it doesn't exceed the container width */
+}
+
+.ad-link {
+    display: block;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+.ad-link:hover {
+    color: #ff7f50; /* Color change on hover */
+}
+
+.ad-banner {
+    width: 100%; /* Makes the image responsive */
+    height: auto;
+    max-width: 728px; /* Ensures it doesn't stretch too wide */
+    border-radius: 8px;
+}

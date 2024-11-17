@@ -1,0 +1,290 @@
+/* 全局設定 */
+body {
+    margin: 0; /* 頁面邊距為零 */
+    font-family: 'Helvetica Neue', Arial, sans-serif; /* 設定字體 */
+    background-color: #f8f8f8; /* 背景顏色 */
+    color: #000000; /* 文字顏色 */
+    padding: 0; /* 內部填充為零 */
+}
+
+/* Header 設置 */
+.header {
+    position: fixed; /* 固定在頁面頂部 */
+    top: 0;
+    left: 0;
+    width: 97%; /* 寬度設置 */
+    background-color: #fff; /* 背景顏色 */
+    padding: 20px 40px; /* 內部填充 */
+    display: flex; /* 使用彈性盒布局 */
+    align-items: center; /* 垂直居中對齊 */
+    justify-content: space-between; /* 水平分佈 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 陰影效果 */
+    z-index: 999; /* 確保在最上層 */
+}
+
+.header img {
+    height: 60px; /* 標誌高度 */
+}
+
+.header h1 {
+    font-size: 24px; /* 標題字體大小 */
+    margin-left: 10px; /* 左邊距 */
+    color: #ff6f61; /* 標題顏色 */
+}
+
+/* 隱藏 Header 的動畫效果 */
+.hide {
+    transform: translateY(-100%); /* 向上移動 */
+    opacity: 0; /* 隱藏 */
+}
+
+/* 導航欄設置 */
+.nav {
+    padding-left: 0; /* 左邊距為零 */
+}
+
+.nav ul {
+    list-style: none; /* 去掉列表樣式 */
+    display: flex; /* 使用彈性盒布局 */
+    margin: 0; /* 外邊距為零 */
+    padding: 0; /* 內邊距為零 */
+}
+
+.nav ul li {
+    margin-right: 20px; /* 右邊距 */
+}
+
+.nav ul li a {
+    text-decoration: none; /* 去掉下劃線 */
+    color: #ff6f61; /* 超鏈接顏色 */
+    font-size: 16px; /* 字體大小 */
+}
+
+.nav input[type="text"] {
+    padding: 5px 45px; /* 內部填充 */
+    font-size: 16px; /* 字體大小 */
+    border: 1px solid #ff6f61; /* 邊框設置 */
+    border-radius: 5px; /* 圓角 */
+}
+
+.nav button {
+    margin-left: 15px; /* 左邊距 */
+    padding: 5px 15px; /* 內部填充 */
+    font-size: 16px; /* 字體大小 */
+    border: none; /* 無邊框 */
+    background-color: #ff6f61; /* 背景顏色 */
+    color: #fff; /* 文字顏色 */
+    cursor: pointer; /* 鼠標指針 */
+    border-radius: 5px; /* 圓角 */
+    transition: background-color 0.3s; /* 背景色變化過渡 */
+}
+
+.nav button:hover {
+    background-color: #ff473f; /* 懸停時背景顏色 */
+}
+
+/* 使用者選單 */
+.user-menu {
+    position: relative; /* 相對定位 */
+    display: inline-block; /* 行內塊元素 */
+}
+
+.user-link {
+    color: #ff6f61; /* 超鏈接顏色 */
+    font-size: 16px; /* 字體大小 */
+    text-decoration: none; /* 去掉下劃線 */
+    cursor: pointer; /* 鼠標指針 */
+}
+
+.dropdown-content {
+    display: none; /* 默認隱藏 */
+    position: absolute; /* 絕對定位 */
+    background-color: #f9f9f9; /* 背景顏色 */
+    min-width: 160px; /* 最小寬度 */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* 陰影效果 */
+    z-index: 1; /* 在最上層 */
+}
+
+.dropdown-content a {
+    color: #ff6f61; /* 文字顏色 */
+    padding: 12px 16px; /* 內部填充 */
+    text-decoration: none; /* 去掉下劃線 */
+    display: block; /* 塊元素 */
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1; /* 懸停時背景顏色 */
+}
+
+.user-menu:hover .dropdown-content {
+    display: block; /* 懸停時顯示 */
+}
+
+/* 主要內容 */
+.main-content {
+    display: flex; /* 使用彈性盒布局 */
+    padding: 20px; /* 內部填充 */
+    margin-top: 100px; /* 為 header 留出空間 */
+}
+
+/* 側邊欄 */
+.sidebar {
+    width: 20%; /* 寬度設置 */
+    padding: 20px; /* 內部填充 */
+    background-color: #fff; /* 背景設置為白色 */
+    border-radius: 10px; /* 添加圓角 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 添加陰影效果 */
+}
+
+/* 側邊欄列表樣式 */
+.sidebar ul {
+    list-style: none; /* 去掉列表樣式 */
+    padding: 0; /* 內邊距為零 */
+    margin: 0; /* 外邊距為零 */
+}
+
+.sidebar ul li {
+    margin-bottom: 10px; /* 下邊距 */
+    font-size: 14px; /* 字體大小 */
+    border: 1px solid #ff6f61; /* 添加橘色邊框 */
+    border-radius: 5px; /* 圓角 */
+    padding: 5px; /* 內部填充 */
+    transition: background-color 0.3s; /* 背景色變化 */
+}
+
+.sidebar ul li a {
+    color: #333; /* 文字顏色 */
+    text-decoration: none; /* 去掉下劃線 */
+    display: block; /* 塊元素 */
+}
+
+.sidebar ul li:hover {
+    background-color: #ff6f61; /* 懸停時的背景顏色 */
+    color: #fff; /* 懸停時的文字顏色 */
+}
+
+/* 產品區域 */
+.no-link-style {
+    color: inherit; /* 继承父元素的颜色 */
+    text-decoration: none; /* 去除下划线 */
+}
+
+.no-link-style:hover {
+    text-decoration: none; /* 悬停时也不显示下划线 */
+    color: inherit; /* 保持颜色不变 */
+}
+
+.products {
+    width: 80%; /* 寬度設置 */
+    padding: 20px; /* 內部填充 */
+}
+
+.product-grid {
+    display: grid; /* 使用網格布局 */
+    grid-template-columns: repeat(4, 1fr); /* 每行4列 */
+    gap: 20px; /* 每個項目之間的間隙 */
+    animation: fadeIn 0.5s; /* 添加淡入動畫 */
+}
+
+/* 產品項目 */
+.product-item {
+    text-align: center; /* 文字居中 */
+    border: 1px solid #ff6f61; /* 橘色邊框 */
+    background-color: #fff; /* 白色背景 */
+    padding: 10px; /* 內部填充 */
+    border-radius: 10px; /* 圓角 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加陰影效果 */
+    transition: transform 0.3s; /* 變形過渡效果 */
+}
+
+/* 產品項目懸停效果 */
+.product-item:hover {
+    transform: scale(1.05); /* 懸停時放大 */
+}
+
+.product-item img {
+    max-width: 100%; /* 圖片最大寬度 */
+    height: auto; /* 高度自動 */
+}
+
+.product-item p {
+    margin: 5px 0; /* 上下邊距 */
+    font-size: 14px; /* 縮小字體 */
+}
+
+.sunscreen-title {
+    color: #ff6f61; /* 顏色 */
+    font-weight: bold; /* 粗體 */
+    font-size: 24px; /* 字體大小 */
+}
+
+/* 社交媒體 */
+.social-media {
+    position: fixed; /* 固定位置 */
+    right: 10px; /* 右邊距 */
+    bottom: 10px; /* 下邊距 */
+    display: flex; /* 使用彈性盒布局 */
+    flex-direction: column; /* 垂直排列 */
+}
+
+.social-media a {
+    margin-bottom: 10px; /* 下邊距 */
+}
+
+/* 排序選項 */
+.sort-options {
+    display: flex; /* 使用彈性盒布局 */
+    justify-content: space-between; /* 水平分佈 */
+    align-items: center; /* 垂直居中對齊 */
+    margin-bottom: 20px; /* 下邊距 */
+}
+
+.sort-options select {
+    padding: 5px; /* 內部填充 */
+    font-size: 16px; /* 字體大小 */
+}
+
+/* 視圖選項的容器 */
+.view-options {
+    display: flex; /* 使用彈性盒布局 */
+    align-items: center; /* 垂直居中對齊 */
+    margin-bottom: 20px; /* 下邊距 */
+}
+
+/* 按鈕樣式 */
+.view-button {
+    padding: 10px 15px; /* 內部填充 */
+    margin-right: 10px; /* 右邊距 */
+    font-size: 16px; /* 字體大小 */
+    border: none; /* 無邊框 */
+    background-color: #ff6f61; /* 背景顏色 */
+    color: #fff; /* 文字顏色 */
+    cursor: pointer; /* 鼠標指針 */
+    border-radius: 5px; /* 圓角 */
+    transition: background-color 0.3s; /* 背景色變化過渡 */
+}
+
+/* 按鈕懸停效果 */
+.view-button:hover {
+    background-color: #ff473f; /* 懸停時背景顏色 */
+}
+
+/* 下拉選單樣式 */
+.sort-select {
+    padding: 10px; /* 內部填充 */
+    font-size: 16px; /* 字體大小 */
+    border: 1px solid #ff6f61; /* 邊框顏色 */
+    border-radius: 5px; /* 圓角 */
+    margin-left: 10px; /* 左邊距 */
+    cursor: pointer; /* 鼠標指針 */
+}
+
+/* 動畫效果 */
+@keyframes fadeIn {
+    from {
+        opacity: 0; /* 初始不透明度 */
+    }
+    to {
+        opacity: 1; /* 最終不透明度 */
+    }
+}
