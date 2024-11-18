@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+   
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; align-items: center;">
+            <img src="https://i.imgur.com/Akgc4pd.jpeg" alt="Beauty Buddy Logo" id="logo">
+            <h1>Beauty Buddy</h1>
+        </div>
+        <div class="nav">
+            <ul>
+                <li><a href="http://beautybuddy.ddns.net/">首頁</a></li>
+
+                <li><a href="http://beautybuddy.ddns.net/filter">篩選產品</a></li>   
+
+                
+                {% if username %}
+                    <div class="user-menu">
+                        <a href="#" class="user-link">哈囉 {{ username }}&#128512</a>
+                        <div class="dropdown-content">
+                            <a href="/profile">個人檔案</a>
+                            <a href="/logout">登出</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <li><a href="http://beautybuddy.ddns.net/login">登入/註冊</a></li>
+                {% endif %}
+
+            </ul>
+            
+            <form action="/products" method="GET" style="display: inline;">
+                <input type="text" name="keyword" id="searchInput" placeholder="搜索..." required>
+                <button type="submit">搜索</button> <!-- 將按鈕設置為提交表單 -->
+            </form>
+        </div>
+    </div>
+    
+    <br>  <br/>
+    <br>  <br/>
+    <br>  <br/>
+    <h1>{{ keyword }} 搜尋結果一覽</h1> <!-- 顯示關鍵字 -->
+    <ul class="product-list">
+        {% for product in products %}
+        <li class="product-item">
+            <!-- 整個 product-item 被 <a> 標籤包裹 -->
+            <a href="{{ url_for('product_detail', product_name=product.name) }}" class="product-link">
+                <img src="{{ product.img }}" alt="{{ product.name }}">
+                <div class="product-details">
+                    <h2>{{ product.name }}</h2>
+                    <p>品牌: {{ product.brand }}</p>
+                    <p class="price">價格: {{ product.sizeprice }}</p>
+                    <p>種類: {{ product.category }}</p>
+                    <p>描述:</p>
+                    <ul>
+                        <!-- 顯示每一行描述 -->
+                        {% for line in product.des %}
+                            <li>{{ line }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    
+    
+    
+    <style>
+        /*首頁*/
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 97%;
+            background-color: #fff;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+        }
+
+        /* Body */
+        body {
+            margin: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f4f4f4; /* 统一背景色 */
+            color: #000;
+        }
+
+        /* Logo */
+        .header img {
+            height: 60px;
+        }
+
+        /* Header Title */
+        .header h1 {
+            font-size: 24px;
+            margin-left: 10px;
+            color: #ff6f61;
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex; /* 使导航栏也是弹性布局 */
+            align-items: center;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav ul li {
+            margin-right: 20px;
+        }
+
+        .nav ul li a,
+        .nav button {
+            text-decoration: none;
+            color: #ff6f61;
+            font-size: 16px;
+            border: none;
+            background: none; /* 去除按钮背景 */
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .nav button {
+            padding: 5px 15px; /* 给按钮设置内边距 */
+            border-radius: 5px; /* 圆角 */
+        }
+
+        .nav button:hover {
+            background-color: #ff473f; /* 按钮悬停效果 */
+        }
+
+        /* Search Input */
+        .nav input[type="text"] {
+            padding: 5px 15px;
+            font-size: 16px;
+            border: 1px solid #ff6f61;
+            border-radius: 5px;
+            margin-left: 15px; /* 添加与按钮间隔 */
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            padding: 20px;
+        }
+
+
+        /* Product List */
+        .product-list {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
+            list-style-type: none;
+          
+        }
+
+                /* 滑過顯示 */
+
+        /* 使用者選單的樣式 */
+        .user-menu {
+            position: relative; /* 相對定位，用於顯示下拉選單 */
+            display: inline-block; /* 使其內聯顯示 */
+        }
+
+        /* 使用者名稱連結的樣式 */
+        .user-link {
+            color: #ff6f61; /* 設置字體顏色為淺紅色 */
+            font-size: 16px; /* 設置字體大小 */
+            text-decoration: none; /* 移除下劃線 */
+            cursor: pointer; /* 鼠標變為手型 */
+        }
+
+        /* 下拉選單內容樣式 */
+        .dropdown-content {
+            display: none; /* 預設隱藏下拉選單 */
+            position: absolute; /* 絕對定位，下拉選單相對於父元素 */
+            background-color: #f9f9f9; /* 背景顏色設置為淺灰色 */
+            min-width: 160px; /* 最小寬度設置為 160px */
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* 添加陰影效果 */
+            z-index: 1; /* 確保下拉選單位於其他元素上方 */
+        }
+
+        /* 下拉選單中的每個選項連結樣式 */
+        .dropdown-content a {
+            color: black; /* 字體顏色設置為黑色 */
+            padding: 12px 16px; /* 內邊距上下12px，左右16px */
+            text-decoration: none; /* 移除下劃線 */
+            display: block; /* 使每個選項佔據整行 */
+        }
+
+        /* 下拉選單中的選項懸停效果 */
+        .dropdown-content a:hover {
+            background-color: #f1f1f1; /* 懸停時背景變為更淺的灰色 */
+        }
+
+        /* 使用者選單懸停時顯示下拉選單 */
+        .user-menu:hover .dropdown-content {
+            display: block; /* 當鼠標懸停時，顯示下拉選單 */
+        }
+        /* 滑過結束 */
+/* 使整個 .product-item 成為可點擊的鏈接 */
+.product-link {
+    display: flex;  /* 讓 <a> 標籤使用 flex 佈局 */
+    text-decoration: none;  /* 去除超連結的底線 */
+    color: inherit;  /* 確保文字顏色繼承父元素顏色 */
+}
+
+
+/* .product-item 設為 flex 佈局，讓圖片和文字排在同一行 */
+.product-item {
+    display: flex;
+    align-items: center;  /* 垂直居中 */
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 15px 0;
+    padding: 15px;
+}
+
+
+        .product-item img {
+            max-width: 150px;
+            max-height: 150px;
+            margin-right: 20px;
+        }
+
+        .product-details {
+            flex-grow: 1;
+        }
+
+        .product-details h2 {
+            font-size: 20px;
+            color: #333;
+            margin: 0 0 10px;
+        }
+
+        .product-details p {
+            font-size: 14px;
+            color: #666;
+            margin: 5px 0;
+        }
+
+        .product-details .price {
+            font-size: 16px;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        /* Miscellaneous Styles */
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+    </style>
+</body>
+</html>
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
