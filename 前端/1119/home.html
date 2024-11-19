@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.12.0/headroom.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.12.0/jQuery.headroom.min.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Buddy</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}">
+    <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; align-items: center;">
+            <img src="https://imgur.com/Akgc4pd.jpeg" alt="Beauty Buddy Logo" id="logo">
+            <h1>Beauty Buddy</h1>
+        </div>
+        <div class="nav">
+            <ul>
+                <li><a href="http://beautybuddy.ddns.net/">首頁</a></li>
+                <li><a href="http://beautybuddy.ddns.net/filter">篩選產品</a></li>   
+
+                {% if username %}
+                    <div class="user-menu">
+                        <a href="#" class="user-link">哈囉 {{ username }} &#128151</a>
+                        <div class="dropdown-content">
+                            <a href="/profile">個人檔案</a>
+                            <a href="/logout">登出</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <li><a href="http://beautybuddy.ddns.net/login">登入/註冊</a></li>
+                {% endif %}
+
+            </ul>
+  
+            <form action="/products" method="GET" style="display: inline;">
+                <input type="text" name="keyword" id="searchInput" placeholder="搜索..." required>
+                <button type="submit">搜索</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="content">
+        <br><br><br>
+        <h2>歡迎來到 Beauty Buddy</h2>
+
+        <div class="carousel" id="carousel">
+            <img src="https://i.imgur.com/uWLa8by.jpeg" class="active">
+            <img src="https://i.imgur.com/TYrUEtb.jpeg">
+            <img src="https://i.imgur.com/Tq2HMHj.jpeg">
+            
+            <div class="carousel-buttons">
+                <button onclick="previousSlide()">上一個</button>
+                <button onclick="nextSlide()">下一個</button>
+            </div>
+        </div>
+
+        <!-- Advertisement Banner -->
+        <div class="advertisement">
+            <a href="#" class="ad-link">Heme新品上市! 點選連結查看</a>
+            <img src="https://via.placeholder.com/728x90?text=Advertisement+Here" alt="Advertisement" class="ad-banner">
+        </div>    
+        
+        
+<!-- File Upload Section -->
+<div class="upload-section">
+    <h2>上傳您的圖片</h2>
+    {% if username %}
+        <!-- 只有登入後才顯示這部分 -->
+        <label for="imageUpload">上傳圖片(正臉)：</label>
+        <input type="file" id="imageUpload" accept="image/*">
+        <button onclick="uploadImage()">上傳</button>
+        <p id="uploadStatus"></p>
+        
+        <!-- 用於顯示上傳成功後的圖片 -->
+        <div class="image-container">
+            <img id="imagePreview" style="display: none;" alt="Uploaded Image Preview">
+        </div>
+    {% else %}
+        <!-- 未登入時顯示提示訊息 -->
+        <p class="login-prompt"> <a href="{{ url_for('login') }}">請先登入</a></p>
+    {% endif %}
+</div>
+
+<!-- 新增區域：用於顯示分析結果 -->
+<div class="analysis-section" style="margin-top: 20px;">
+    <h3>最新分析結果</h3>
+    {% if latest_result %}
+        <p><strong>健康度:</strong> {{ latest_result.health }} (值越低越健康)</p>
+        <p><strong>斑點值:</strong> {{ latest_result.stain }} (值越高，斑點越明顯)</p>
+        <p><strong>黑眼圈值:</strong> {{ latest_result.dark_circle }} (值越高，黑眼圈越明顯)</p>
+        <p><strong>痘痘值:</strong> {{ latest_result.acne }} (值越高，痘痘越嚴重)</p>
+        <p><strong>年齡:</strong> {{ latest_result.age }}</p>
+    {% else %}
+        <p>登入後,請去個人檔案查看結果</p>
+    {% endif %}
+</div>
+
+
+
+
+        <h2>開始檢測您的肌膚</h2>
+        {% if username %}
+            <button onclick="showPopup()" class="start-button">開始檢測</button>
+        {% else %}
+            <p class="login-prompt"> <a href="{{ url_for('login') }}">請先登入</a></p>
+        {% endif %}
+
+        <div id="results"></div> 
+    </div>
+
+    <div class="categories">
+        <h3>產品分類</h3>
+        <div class="category">
+            <img src="https://cdn-icons-png.flaticon.com/512/2581/2581107.png" alt="防曬">
+            <a href="http://beautybuddy.ddns.net/sun">  <p>防曬</p></a>
+        </div>
+        <div class="category">
+            <img src="https://cdn-icons-png.flaticon.com/512/3258/3258605.png" alt="粉底液">
+            <a href="http://beautybuddy.ddns.net/liquid"><p>粉底液</p></a>
+        </div>
+        <div class="category">
+            <img src="https://cdn-icons-png.flaticon.com/128/8946/8946622.png" alt="粉餅">
+            <a href="http://beautybuddy.ddns.net/cookie"><p>粉餅</p></a>
+        </div>
+    </div>
+
+    <div class="products">
+        {% for category, product in highest_rated_products.items() %}
+            <div class="product-info">
+                <img src="{{ product.img }}" alt="{{ product.product_name }}" class="product-image"/>
+                <p>{{ product.brand_name }}</p>
+                <h2>{{ product.product_name }}</h2>
+                <p>評分: {{ product.avg_rating }}</p>
+                <a href="{{ url_for('product_detail', product_name=product.product_name) }}">
+                    查看詳情
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    
+   <!-- 肌膚檢測彈出表單 -->
+    <div class="overlay" id="overlay">  <!-- 預設隱藏 -->
+        <div class="popup">
+            <h1>肌膚檢測</h1>
+            <form id="skinTestForm">
+            <!-- 敏感度選項 -->
+            <div>
+                <label for="sensitivity">敏感度：</label>
+                <input type="hidden" id="sensitivity" name="sensitivity">
+                <div class="button-group" id="sensitivity-group">
+                    <button type="button" value="1" onclick="selectOption(this, 'sensitivity')">非常敏感</button>
+                    <button type="button" value="2" onclick="selectOption(this, 'sensitivity')">稍微敏感</button>
+                    <button type="button" value="3" onclick="selectOption(this, 'sensitivity')">正常</button>
+                    <button type="button" value="4" onclick="selectOption(this, 'sensitivity')">不太敏感</button>
+                    <button type="button" value="5" onclick="selectOption(this, 'sensitivity')">不敏感</button>
+                </div>
+            </div>
+
+            <!-- 皮膚水分感覺選項 -->
+            <div>
+                <label for="hydration">皮膚水分感覺：</label>
+                <input type="hidden" id="hydration" name="hydration">
+                <div class="button-group" id="hydration-group">
+                    <button type="button" value="1" onclick="selectOption(this, 'hydration')">非常乾燥</button>
+                    <button type="button" value="2" onclick="selectOption(this, 'hydration')">稍微乾燥</button>
+                    <button type="button" value="3" onclick="selectOption(this, 'hydration')">正常</button>
+                    <button type="button" value="4" onclick="selectOption(this, 'hydration')">稍微濕潤</button>
+                    <button type="button" value="5" onclick="selectOption(this, 'hydration')">非常濕潤</button>
+                </div>
+            </div>
+
+            <!-- 皮膚油質感覺選項 -->
+            <div>
+                <label for="oiliness">皮膚油質感覺：</label>
+                <input type="hidden" id="oiliness" name="oiliness">
+                <div class="button-group" id="oiliness-group">
+                    <button type="button" value="1" onclick="selectOption(this, 'oiliness')">非常油膩</button>
+                    <button type="button" value="2" onclick="selectOption(this, 'oiliness')">稍微油膩</button>
+                    <button type="button" value="3" onclick="selectOption(this, 'oiliness')">正常</button>
+                    <button type="button" value="4" onclick="selectOption(this, 'oiliness')">稍微清爽</button>
+                    <button type="button" value="5" onclick="selectOption(this, 'oiliness')">非常清爽</button>
+                </div>
+            </div>
+
+
+                <button type="button" onclick="calculateSkinType()">提交</button>
+            </form>
+            <div id="result"></div> 
+            <div id="recommendations"></div>
+
+            <button class="close-btn" onclick="hidePopup()">關閉</button>
+        </div>
+    </div>
+
+
+
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Beauty Buddy.</p>
+            <p>團隊:美妝小幫手</a></p>
+            <p>資料來源:Heme 1028 cosme</p>
+            <p>單位:國立臺北商業大學 資訊管理系 113412組</p>
+        </div>
+    </footer>
+    
+</body>
+</html>

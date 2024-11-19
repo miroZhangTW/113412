@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人檔案</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/profile.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div style="display: flex; align-items: center;">
+            <img src="https://imgur.com/Akgc4pd.jpeg" alt="Beauty Buddy Logo" id="logo">
+            <h1>Beauty Buddy</h1>
+        </div>
+        <nav class="nav">
+            <ul>
+                <li><a href="http://beautybuddy.ddns.net/">首頁</a></li>
+                <li><a href="http://beautybuddy.ddns.net/filter">篩選產品</a></li>   
+                {% if username %}
+                    <div class="user-menu">
+                        <a href="#" class="user-link">哈囉 {{ username }}&#128512</a>
+                        <div class="dropdown-content">
+                            <a href="/profile">個人檔案</a>
+                            <a href="/logout">登出</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <li><a href="http://beautybuddy.ddns.net/login">登入/註冊</a></li>
+                {% endif %}
+            </ul>
+            <form action="/products" method="GET" style="display: inline;">
+                <input type="text" name="keyword" id="searchInput" placeholder="搜索..." required>
+                <button type="submit">搜索</button>
+            </form>
+        </nav>
+    </header>
+
+
+    <br></br>
+    <br></br>
+    <br></br>
+
+
+
+    <div class="profile-header">
+        <div class="avatar">
+            <img src="https://via.placeholder.com/100" alt="User Avatar">
+        </div>
+        <div class="user-info">
+            <h2>{{ username }}</h2>
+            <p>歡迎回來&#128151</p>
+        </div>
+    </div>
+
+    <aside class="sidebar">
+        <ul>
+            <li><a href="{{ url_for('profile', section='skin-tests') }}">皮膚檢測紀錄</a></li>
+            <li><a href="{{ url_for('profile', section='skin-detect') }}">皮膚偵測紀錄</a></li>
+            <li><a href="{{ url_for('profile', section='favorites') }}">關注收藏</a></li>
+            <li><a href="{{ url_for('profile', section='about-me') }}">關於我</a></li>
+            <li><a href="{{ url_for('profile', section='add-comment') }}">新增評論</a></li>
+            <li><a href="{{ url_for('profile', section='my-comment') }}">我的評論</a></li>
+
+        </ul>
+    </aside>
+
+    <main class="content-area">
+        <div id="dynamic-content">
+
+            {% if section == 'skin-tests' %}
+                <h2 id="skin-tests">皮膚檢測紀錄</h2>
+                <h2>數字對應 : 1 非常 , 2 較 , 3 正常 , 4 較少 , 5 很少</h2>
+
+                {% if skin_tests %}
+                    {% for test in skin_tests %}
+                        <div class="test-record">
+                            <p>敏感度: {{ test[0] }}</p>
+                            <p>水分: {{ test[1] }}</p>
+                            <p>油脂: {{ test[2] }}</p>
+                            <p>結果: {{ test[3] }}</p>
+                            <p>檢測日期: {{ test[4] }}</p>
+                            <hr>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>沒有檢測紀錄可顯示。</p>
+                {% endif %}
+
+                
+                
+ 
+            {% elif section == 'skin-detect' %}
+                <h2 id="skin-detect">皮膚偵測紀錄</h2>
+                {% if image_urls_results %}
+                <p>這些數值是基於機器學習模型的預測結果，可能受光線、角度等環境因素影響，不是醫學診斷。
+                    <table></p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>圖片</th>
+                                <th>上傳時間</th>
+                                <th>分析結果</th>
+                                <th>產品推薦</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                             {%for row in image_urls_results %}
+                            <tr>
+                                <td><img src="{{ row[0] }}" alt="分析圖片" style="max-width: 150px;"></td>
+                                <td>{{ row[1] }}</td>
+                                <td>
+                                    <p>健康度: {{ row[2] }} (值越高，越健康)</p>
+                                    <p>斑點值: {{ row[3] }} (值越高，斑點越明顯)</p>
+                                    <p>黑眼圈值: {{ row[4] }} (值越高，黑眼圈越明顯)</p>
+                                    <p>痘痘值: {{ row[5] }} (值越高，痘痘越嚴重)</p>
+                                </td>
+                                <td>
+                                    <button class="recommend-btn btn btn-primary" 
+                                            data-health="{{ row[2] }}" 
+                                            data-stain="{{ row[3] }}" 
+                                            data-dark_circle="{{ row[4] }}" 
+                                            data-acne="{{ row[5] }}">
+                                        查看推薦
+                                    </button>
+                                </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                    <p>沒有偵測紀錄可顯示。</p>
+                {% endif %}
+
+                <!-- Modal -->
+                <div class="modal fade" id="recommendModal" tabindex="-1" aria-labelledby="recommendModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="recommendModalLabel">推薦產品</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="recommended-products">
+                                <div class="products-container"> <!-- 用一個容器包裹 -->
+                                    <!-- 動態插入推薦產品卡片 -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+           
+            {% elif section == 'favorites' %}
+                <h2 id="favorites">關注收藏</h2>
+                {% if favorites %}
+                    <ul class="favorites-list">
+                    {% for favorite in favorites %}
+                        <li class="favorite-item">
+                            <div class="favorite-card">
+                                <!-- 使用字典鍵來取值 -->
+                                <img src="{{ favorite['image_url'] }}" alt="{{ favorite['brand'] }}" class="favorite-image">
+                                <strong>產品名稱:</strong> {{ favorite['product_name'] }}<br>
+                                <strong>品牌:</strong> {{ favorite['brand'] }}<br>
+                                <strong>類別:</strong> {{ favorite['category'] }}<br>
+                                <strong>容量:</strong> {{ favorite['sizeprice'] }}<br>
+                                <strong>創建日期:</strong> {{ favorite['created_at'] }}<br>
+                            </div>
+                            <hr>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>沒有收藏的產品可顯示。</p>
+                {% endif %}
+                
+                {% elif section == 'about-me' %}
+                <h2 id="about-me">關於我</h2>
+                <p><strong>暱稱:</strong> {{ username }}</p>
+                <p><strong>電子郵件(註冊帳號):</strong> {{ email }}</p>
+                <p><strong>創建日期:</strong> {{ created_at }}</p>
+            
+                
+                {% if platforms %}
+                    <h3>我的交易：</h3>
+                    <ul>
+                        {% for platform in platforms %}
+                            <li>
+                                <a href="{{ platform['url'] }}" target="_blank">{{ platform['name'] }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>尚未記錄任何交易。</p>
+                {% endif %}
+                
+                <!-- 好物推薦 -->
+                <h3>好物推薦</h3>
+                <p>根據您的膚質和偏好推薦美妝產品。</p>
+                <form action="/recommend_productsss" method="GET">
+                    <label for="skin_type">選擇膚質:</label>
+                    <select id="skin_type" name="skin_type" required>
+                        <option value="">請選擇膚質</option>
+                        <option value="乾性">乾性</option>
+                        <option value="油性">油性</option>
+                        <option value="混合性">混合性</option>
+                        <option value="敏感性">敏感性</option>
+                    </select>
+                    <label for="preference">偏好:</label>
+                    <input type="text" id="preference" name="preference" placeholder="例: 保濕, 修復, 防曬">
+                    <button type="submit">查看推薦</button>
+                </form>
+                
+                {% if recommendations %}
+                    <h4>推薦的美妝產品：</h4>
+                    <ul class="recommendations-list">
+                        {% for product in recommendations %}
+                            <li class="recommendation-item">
+                                <div class="recommendation-card">
+                                    <img src="{{ product['image_url'] }}" alt="{{ product['name'] }}" class="product-image">
+                                    <strong>產品名稱:</strong> {{ product['name'] }}<br>
+                                    <strong>品牌:</strong> {{ product['brand'] }}<br>
+                                    <strong>類別:</strong> {{ product['category'] }}<br>
+                                    <strong>價格:</strong> {{ product['price'] }}<br>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>目前沒有推薦產品，請選擇膚質並提交您的偏好。</p>
+                {% endif %}
+                
+
+            {% elif section == 'add-comment' %}
+                <h2 id="add-comment">新增評論</h2>
+                <div class="comment-form-container">
+                    <form action="/add_comment" method="POST">
+                        <div class="form-group">
+                            <div class="form-item">
+                                <label for="brand_name">品牌名稱:</label>
+                                <input type="text" name="brand_name" required>
+                            </div>
+                            <div class="form-item">
+                                <label for="product_name">產品名稱:</label>
+                                <input type="text" name="product_name" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-item">
+                                <label for="size">容量:</label>
+                                <input type="text" name="size" required>
+                            </div>
+                            <div class="form-item">
+                                <label for="price">價錢:</label>
+                                <input type="text" name="price" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-item">
+                                <label for="category">產品類別:</label>
+                                <input type="text" name="category" required>
+                            </div>
+                            <div class="form-item">
+                                <label for="rating">評分:</label>
+                                <select name="rating" required>
+                                    <option value="">請選擇評分</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                </select>
+                            </div>
+                            
+                        </div>
+                        <div class="form-group">
+                            <div class="form-item">
+                                <label for="usage_info">效果:</label>
+                                <input type="text" name="usage_info" required>
+                            </div>
+                            <div class="form-item">
+                                <label for="experience_method">哪裏入手:</label>
+                                <input type="text" name="experience_method" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-item">
+                                <label for="usage_season">使用季節:</label>
+                                <input type="text" name="usage_season" required>
+                            </div>
+                            <div class="form-item">
+                                <label for="usage_environment">使用環境:</label>
+                                <input type="text" name="usage_environment" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-item full-width">
+                                <label for="review_content">評論:</label>
+                                <textarea name="review_content" required></textarea>
+                            </div>
+                        </div>
+                        <button type="submit">提交評論</button>
+                    </form>
+                
+            {% elif section == 'my-comment' %}
+            <h2 id="add-comment">我的評論</h2>  
+            {% if reviews %}
+                <ul class="review-list">
+                {% for review in reviews %}
+                    <li class="review-item">
+                        <div class="review-card">
+                            <strong>品牌名稱:</strong> {{ review[0] }}<br>
+                            <strong>產品名稱:</strong> {{ review[1] }}<br>
+                            <strong>容量:</strong> {{ review[2] }}<br>
+                            <strong>價錢:</strong> {{ review[3] }}<br>
+                            <strong>產品類別:</strong> {{ review[4] }}<br>
+                            <strong>評分:</strong> {{ review[5] }}<br>
+                            <strong>效果:</strong> {{ review[6] }}<br>
+                            <strong>哪裏入手:</strong> {{ review[7] }}<br>
+                            <strong>使用季節:</strong> {{ review[8] }}<br>
+                            <strong>使用環境:</strong> {{ review[9] }}<br>
+                            <strong>評論:</strong> {{ review[10] }}<br>
+                            <strong>創建日期:</strong> {{ review[11] }}<br>
+
+                            {% if review[12] %}  <!-- 如果 SimplifiedReview 存在 -->
+                                <div id="simplifiedReviewContainer-{{ loop.index }}" style="margin-top: 10px;">
+                                    <strong>簡化評論:</strong> {{ review[12] }}<br> <!-- 顯示簡化評論 -->
+                                </div>
+                            {% else %}  <!-- 如果 SimplifiedReview 不存在，顯示簡化按鈕 -->
+                                <button class="review-btn" data-review-id="{{ loop.index }}" onclick="simplifyReview(this)">簡化</button>
+                                <div id="simplifiedReviewContainer-{{ loop.index }}" style="margin-top: 10px;"></div>
+                            {% endif %}
+
+                            </div>
+                            <hr>
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>趕快來新增評論</p>
+                {% endif %} 
+
+            {% else %}
+                <h2>請選擇一個選項。</h2>
+            {% endif %}
+        </div>
+    </main>
+    <style>
+        /*首頁*/
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 97%;
+            background-color: #fff;
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        .header img {
+            height: 60px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-left: 10px;
+            color: #ff6f61;
+        }
+
+        /* 導航欄樣式 */
+        .nav {
+            padding-left: 0; 
+        }
+
+        .nav ul {
+            list-style: none; 
+            display: flex; 
+            margin: 0; 
+            padding: 0; 
+        }
+
+        .nav ul li {
+            margin-right: 20px; 
+        }
+
+        .nav ul li a {
+            text-decoration: none; 
+            color: #ff6f61; 
+            font-size: 16px; 
+        }
+
+        .nav input[type="text"] {
+            padding: 5px 45px; 
+            font-size: 16px; 
+            border: 1px solid #ff6f61; 
+            border-radius: 5px; 
+        }
+
+        .nav button {
+            margin-left: 15px; 
+            padding: 5px 15px; 
+            font-size: 16px;
+            border: none; 
+            background-color: #ff6f61; 
+            color: #fff; 
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .nav button:hover {
+            background-color: #ff473f;
+        }
+
+        /* 使用者選單樣式 */
+        .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-link {
+            color: #ff6f61;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* 下拉選單內容 */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        /* 下拉選單中的連結 */
+        .dropdown-content a {
+            color: #ff6f61;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        /* 下拉選單懸停時顯示 */
+        .user-menu:hover .dropdown-content {
+            display: block;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .avatar img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+        }
+
+        .user-info {
+            margin-left: 20px;
+        }
+
+        .sidebar {
+            width: 170px; /* 調整側邊欄寬度 */
+            background-color: #f9f9f9; /* 側邊欄背景顏色 */
+            padding: 20px; /* 內邊距 */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 陰影效果 */
+            margin-top: 20px; /* 上方間距 */
+            float: left; /* 浮動以便與主內容區域並排 */
+            border-radius: 8px; /* 邊角圓滑 */
+        }
+
+        .sidebar ul {
+            list-style: none; /* 去除預設的列表樣式 */
+            padding: 0; /* 去除內邊距 */
+            margin: 0; /* 去除外邊距 */
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px; /* 列表項目之間的間距 */
+            position: relative; /* 相對定位 */
+            padding-left: 20px; /* 增加左邊的內邊距 */
+        }
+
+        .sidebar ul li::before {
+            content: '➔'; /* 使用 Unicode 字符創建箭頭 */
+            position: absolute; /* 絕對定位 */
+            left: 0; /* 向左對齊 */
+            font-size: 16px; /* 箭頭大小 */
+            color: #ff6f61; /* 箭頭顏色 */
+            line-height: 20px; /* 調整箭頭垂直位置 */
+        }
+        .sidebar ul li:hover {
+            background-color: #e0e0e0; /* 滑鼠懸停時背景顏色 */
+        }
+
+        .sidebar ul li a {
+            text-decoration: none; /* 去除下劃線 */
+            color: #333; /* 字體顏色 */
+            font-size: 16px; /* 字體大小 */
+            display: flex; /* 使項目為彈性容器 */
+            align-items: center; /* 垂直置中 */
+        }
+
+        /* 側邊欄中的圖標樣式 */
+        .sidebar ul li i {
+            margin-right: 10px; /* 圖標與文字之間的間距 */
+            font-size: 18px; /* 圖標大小 */
+        }
+
+        .content-area {
+            margin-left: 220px; /* 給主內容區域留出空間 */
+            padding: 20px; /* 增加內邊距 */
+            background-color: #ffffff; /* 背景顏色 */
+            border: 1px solid #ddd; /* 邊框顏色 */
+            border-radius: 8px; /* 圓角邊框 */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 增加陰影效果 */
+            margin-top: 20px; /* 上方間距 */
+            font-size: 16px; /* 調整字體大小 */
+            line-height: 1.6; /* 行距 */
+            color: #2c2a2a; /* 字體顏色 */
+        }
+
+        /* 針對 h2 標題的樣式 */
+        .content-area h2 {
+            color: #ff6f61; /* 標題顏色 */
+            margin-bottom: 15px; /* 標題與內容之間的間距 */
+        }
+
+        /* 針對 p 標題的樣式 */
+        .content-area p {
+            margin-bottom: 10px; /* 每個段落之間的間距 */
+        }
+
+
+        .test-record {
+            margin-bottom: 10px;
+        }
+
+
+
+
+        /* 偵測 */
+        #skin-detect img {
+    max-width: 100px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1rem;
+    text-align: left;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+}
+
+th {
+    background-color: #f4f4f4;
+    color: #333;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* 僅應用於 #skin-detect 區域內的圖片 */
+#skin-detect img {
+    max-width: 100px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+td p {
+    margin: 5px 0;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+#skin-detect {
+    color: #444;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+    /* 產品容器：橫向排列，滾動 */
+    .recommendation-category .card {
+    margin: 10px;
+    flex: 1 1 calc(25% - 20px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.d-flex.flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.card img {
+    max-height: 150px;
+    object-fit: cover;
+    border-bottom: 1px solid #ddd;
+}
+
+
+
+
+        /* 收藏 */
+        .favorites-row {
+    display: flex; /* 使用 Flexbox 進行橫向排列 */
+    overflow-x: auto; /* 當內容超出範圍時，可以橫向滾動 */
+    padding: 10px 0; /* 上下邊距 */
+}
+        .favorites-list {
+    display: flex;
+    flex-wrap: wrap; /* 允許卡片換行 */
+    justify-content: space-between; /* 控制卡片之間的間距 */
+    padding: 0;
+    list-style-type: none;
+}
+
+.favorite-item {
+    flex: 0 0 auto; /* 每個產品卡片不會縮小 */
+    width: 200px; /* 每個產品卡片的固定寬度 */
+    
+    margin-right: 15px; /* 右邊距 */
+}
+
+.favorite-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.favorite-card:hover {
+    transform: scale(1.05); /* 滑過卡片時放大一點 */
+}
+
+.favorite-image {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+/* 當視窗小於768px時調整佈局 */
+@media (max-width: 768px) {
+    .favorite-item {
+        flex: 1 1 45%; /* 每個卡片佔45%的寬度 */
+    }
+}
+
+/* 當視窗小於480px時調整佈局 */
+@media (max-width: 480px) {
+    .favorite-item {
+        flex: 1 1 100%; /* 每個卡片佔100%的寬度 */
+    }
+
+    .favorite-card {
+        text-align: center;
+    }
+
+    .favorite-image {
+        max-width: 80px; /* 縮小圖片以適應更小的屏幕 */
+    }
+}
+
+
+
+
+
+        /* 新增頻論 */
+        .comment-form-container {
+            background-color: #ffffff; /* 表單背景顏色 */
+            border: 1px solid #ce6868; /* 邊框顏色 */
+            border-radius: 8px; /* 圓角邊框 */
+            padding: 20px; /* 內邊距 */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* 陰影效果 */
+            margin-bottom: 20px; /* 下方間距 */
+            max-width: 800px; /* 最大寬度 */
+            margin: auto; /* 居中 */
+        }
+
+        .form-group {
+            display: flex; /* 使用 Flexbox */
+            justify-content: space-between; /* 分散排列 */
+            margin-bottom: 15px; /* 每組之間的間距 */
+        }
+
+        .form-item {
+            flex: 1; /* 讓輸入框填滿剩餘空間 */
+            margin-right: 60px; /* 右側間距 */
+            margin-bottom: 15px; /* 讓每個表單項目之間有間距 */
+
+        }
+
+        .form-item:last-child {
+            margin-right: 25px; /* 最後一個不加右側間距 */
+        }
+
+        .form-item label {
+            display: block; /* 標籤顯示為區塊元素 */
+            margin-bottom: 5px; /* 標籤與輸入框之間的間距 */
+            color: #555; /* 標籤字體顏色 */
+            font-weight: bold; /* 標籤字體加粗 */
+        }
+
+        .form-item input[type="text"],
+        .form-item input[type="number"],
+        .form-item textarea {
+            width: 100%; /* 輸入框寬度100% */
+            padding: 10px; /* 內邊距 */
+            border: 1px solid #ddd; /* 邊框顏色 */
+            border-radius: 5px; /* 圓角邊框 */
+            font-size: 16px; /* 字體大小 */
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* 輸入框內陰影 */
+            transition: border-color 0.3s; /* 邊框顏色過渡 */
+        }
+
+        .form-item input[type="text"]:focus,
+        .form-item input[type="number"]:focus,
+        .form-item textarea:focus {
+            border-color: #ff6f61; /* 聚焦時的邊框顏色 */
+        }
+
+        .form-item textarea {
+            height: 100px; /* 設定高度 */
+            resize: none; /* 禁止調整大小 */
+        }
+
+        .comment-form-container button {
+            background-color: #ff6f61; /* 按鈕背景顏色 */
+            color: #fff; /* 按鈕字體顏色 */
+            padding: 10px 20px; /* 內邊距 */
+            border: none; /* 去掉邊框 */
+            border-radius: 5px; /* 圓角邊框 */
+            cursor: pointer; /* 鼠標變為手形 */
+            font-size: 16px; /* 字體大小 */
+            transition: background-color 0.3s, transform 0.2s; /* 背景顏色和大小過渡 */
+            display: block; /* 按鈕顯示為區塊元素 */
+            margin: 20px auto 0; /* 上方間距，自動居中 */
+        }
+
+        .comment-form-container button:hover {
+            background-color: #ff473f; /* 懸停時的背景顏色 */
+            transform: translateY(-2px); /* 懸停時向上移動 */
+        }
+
+
+
+        /* 五的評論 */
+        .review-list {
+            list-style-type: none; /* 去掉預設的列表樣式 */
+            padding: 0; /* 去掉內邊距 */
+            margin: 0; /* 去掉外邊距 */
+        }
+
+        .review-item {
+            margin-bottom: 20px; /* 每條評論之間的間距 */
+        }
+
+        .review-card {
+            background-color: #f9f9f9; /* 背景顏色 */
+            border: 1px solid #ddd; /* 邊框顏色 */
+            border-radius: 8px; /* 邊角圓滑 */
+            padding: 15px; /* 內邊距 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 陰影效果 */
+        }
+
+        .review-card strong {
+            color: #ff6f61; /* 標題顏色 */
+        }
+
+        .review-card p {
+            margin: 5px 0; /* 每個段落之間的間距 */
+            color: #333; /* 字體顏色 */
+        }
+
+         /* 按鈕 */
+        .review-btn {
+            padding: 5px 10px;
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .review-btn:hover {
+            background-color: #ff473f;
+        }
+
+
+    </style>
+
+
+<script>
+
+    // 這個函數將數值轉換為易於理解的描述
+    function translateSkinAnalysis(data) {
+        const result = {
+            health: `皮膚健康度: ${data.health} (值越低越健康)`,
+            stain: `斑點值: ${data.stain} (值越高，斑點越明顯)`,
+            dark_circle: `黑眼圈值: ${data.dark_circle} (值越高，黑眼圈越明顯)`,
+            acne: `痘痘值: ${data.acne} (值越高，痘痘越多)`
+        };
+        return result;
+    }
+
+    // 顯示每一行的皮膚分析結果
+    function displaySkinAnalysis() {
+        // 遍歷所有包含分析結果的元素
+        const analysisElements = document.querySelectorAll('.analysis-result');
+        analysisElements.forEach(element => {
+            const skinData = {
+                health: parseFloat(element.getAttribute('data-health')),
+                stain: parseFloat(element.getAttribute('data-stain')),
+                dark_circle: parseFloat(element.getAttribute('data-dark_circle')),
+                acne: parseFloat(element.getAttribute('data-acne'))
+            };
+
+            const translatedResults = translateSkinAnalysis(skinData);
+
+            // 將分析結果插入到元素中
+            element.innerHTML = `
+                <p>${translatedResults.health}</p>
+                <p>${translatedResults.stain}</p>
+                <p>${translatedResults.dark_circle}</p>
+                <p>${translatedResults.acne}</p>
+            `;
+        });
+    }
+
+    // 當頁面加載後顯示分析結果
+    window.onload = function() {
+        displaySkinAnalysis();
+    };
+
+
+    function simplifyReview(button) {
+    const reviewId = button.getAttribute('data-review-id');  // 獲取該按鈕對應的評論 ID
+    fetch('/simplify-review', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ action: 'simplify' }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);  // 顯示後端返回的訊息
+        if (data.simplified_review) {
+            // 根據 reviewId 更新對應的簡化評論
+            document.getElementById(`simplifiedReviewContainer-${reviewId}`).innerText = data.simplified_review;
+        }
+    })
+    .catch(error => {
+        console.error('錯誤:', error);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const recommendButtons = document.querySelectorAll('.recommend-btn');
+
+    recommendButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const health = button.getAttribute('data-health');
+            const stain = button.getAttribute('data-stain');
+            const dark_circle = button.getAttribute('data-dark_circle');
+            const acne = button.getAttribute('data-acne');
+
+            fetch('/detect_recommend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ health, stain, dark_circle, acne })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const productsContainer = document.getElementById('recommended-products');
+                productsContainer.innerHTML = '';
+
+                // 檢查是否有錯誤訊息
+                if (data.error) {
+                    // 顯示錯誤訊息
+                    productsContainer.innerHTML = `<p class="text-danger">${data.error}</p>`;
+                } else {
+                    // 沒有錯誤則顯示推薦的產品
+                    data.forEach(recommendation => {
+                        const { label, products, message } = recommendation;
+
+                        productsContainer.innerHTML += `
+                            <div class="recommendation-category mb-4">
+                                <h5>${label}推薦</h5>
+                                ${message ? `<p>${message}</p>` : ''}
+                                <div class="d-flex flex-wrap">
+                                    ${products.map(product => `
+                                        <div class="card mx-2" style="width: 18rem;">
+                                            <img src="${product.image_url}" class="card-img-top" alt="${product.name}">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${product.name}</h5>
+                                                <p class="card-text">品牌: ${product.brand}</p>
+                                                <p class="card-text">類別: ${product.category}</p>
+                                                <p class="card-text">容量與價格: ${product.size_and_price}</p>
+                                                <p class="card-text">評分: ${product.rating || 'N/A'}</p>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
+                const modal = new bootstrap.Modal(document.getElementById('recommendModal'));
+                modal.show();
+            })
+            .catch(err => {
+                console.error(err);
+            });
+        });
+    });
+});
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="path/to/your/custom.js"></script>
+
+
+
+   <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap JS (包含 Popper.js) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+ 
+    
+
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeautyBuddy - 產品詳情</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/des.css') }}">
+    <script src="{{ url_for('static', filename='js/des.js') }}"></script>
+    <style>
+        .like-button.active {
+            background-color: #cceeff; /* 有幫助按鈕的背景顏色 */
+            color: #0056b3; /* 有幫助按鈕的文字顏色 */
+        }
+        .dislike-button.active {
+            background-color: #ffcccc; /* 無感按鈕的背景顏色 */
+            color: #b30000; /* 無感按鈕的文字顏色 */
+        }
+        /* Style for the advertisement banner */
+        .ad-banner-container {
+            position: fixed;
+            right: 0;
+            top: 20%;
+            width: 300px;
+            background-color: #f2f2f2;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            z-index: 1000; /* Ensure the ad is above other content */
+        }
+        .ad-banner-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .ad-banner-container .ad-close {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 16px;
+            color: #000;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .review-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .favorite-button,
+        .comment-button,
+        .show-reviews-button {
+            padding: 10px 20px;
+            background-color: #f1f1f1;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .comment-section {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .review-content {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; align-items: center;">
+            <img src="https://imgur.com/Akgc4pd.jpeg" alt="Beauty Buddy Logo" id="logo">
+            <h1>Beauty Buddy</h1>
+        </div>
+        <div class="nav">
+            <ul>
+                <li><a href="http://beautybuddy.ddns.net/">首頁</a></li>
+                <li><a href="http://beautybuddy.ddns.net/filter">篩選產品</a></li>   
+                {% if username %}
+                    <li class="user-menu">
+                        <a href="#" class="user-link">哈囉 {{ username }}&#128512</a>
+                        <div class="dropdown-content">
+                            <a href="/profile">個人檔案</a>
+                            <a href="/logout">登出</a>
+                        </div>
+                    </li>
+                {% else %}
+                    <li><a href="http://beautybuddy.ddns.net/login">登入/註冊</a></li>
+                {% endif %}
+            </ul>
+            <form action="/products" method="GET" style="display: inline;">
+                <input type="text" name="keyword" id="searchInput" placeholder="搜索..." required>
+                <button type="submit">搜索</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="product-detail">
+            <img src="{{ product.img }}" alt="Product Image">
+            <div class="product-info">
+                <h2>{{ product.name }}</h2>
+                <p><strong>品牌:</strong> {{ product.brand }}</p>
+                <p><strong>類別:</strong> {{ product.category }}</p>
+                <p><strong>價格:</strong> {{ product.sizeprice }}</p>
+                <p class="review-content"><strong>精選評語:</strong> {{ keywords }}</p>
+                <p><strong>評分:</strong> {{ "%.2f"|format(product.rating) }}/7</p>
+                <button onclick="window.location.href='{{ product.purchase_link }}'">前往網站購買</button>
+                
+                <div class="review-buttons">
+                    <button class="favorite-button" onclick="toggleFavorite({
+                        name: '{{ product.name }}',
+                        brand: '{{ product.brand }}',
+                        category: '{{ product.category }}',
+                        sizeprice: '{{ product.sizeprice }}',
+                        img: '{{ product.img }}'
+                    })">
+                        <span class="favorite-icon"></span>&#128151收藏
+                    </button>
+
+                    <button class="comment-button" onclick="showCommentSection()">發表評論</button>
+                    <button class="show-reviews-button" onclick="toggleReviewDisplay()">顯示評論</button>
+                </div>
+                
+                <!-- Comment Section -->
+                <div class="comment-section" id="comment-section">
+                    <textarea id="comment-text" placeholder="輸入你的評論..."></textarea><br>
+                    <button onclick="submitComment()">提交評論</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-reviews">
+            <h3>精簡評論</h3>
+            {% if reviews %}
+                <div class="reviews">
+                    {% for review in reviews %}
+                        <div class="review-card" id="review-{{ loop.index }}">
+                            <p class="review-content">{{ review }}</p>
+                            <button class="like-button" id="like-button-{{ loop.index }}" onclick="toggleFeedback('{{ loop.index }}', 'helpful')">
+                                <span id="like-icon-{{ loop.index }}">😊</span> 有幫助
+                            </button>
+                            <button class="dislike-button" id="dislike-button-{{ loop.index }}" onclick="toggleFeedback('{{ loop.index }}', 'unhelpful')">
+                                <span id="dislike-icon-{{ loop.index }}">😐</span> 無感
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>目前尚無評論。</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Advertisement Banner on the Right Side -->
+    <div class="ad-banner-container">
+        <button class="ad-close" onclick="closeAdBanner()">X</button>
+        <a href="https://www.example.com" target="_blank">
+            <img src="https://via.placeholder.com/300x600?text=Your+Ad+Here" alt="Advertisement">
+        </a>
+    </div>
+
+    <script>
+        // Function to close the advertisement
+        function closeAdBanner() {
+            document.querySelector('.ad-banner-container').style.display = 'none';
+        }
+
+        // Function to toggle feedback status (helpful/unhelpful)
+        const feedbackStatus = {};
+        function toggleFeedback(reviewIndex, type) {
+            const reviewId = 'review-' + reviewIndex;
+
+            // Reset all options
+            const likeButton = document.getElementById('like-button-' + reviewIndex);
+            const dislikeButton = document.getElementById('dislike-button-' + reviewIndex);
+            const likeIcon = document.getElementById('like-icon-' + reviewIndex);
+            const dislikeIcon = document.getElementById('dislike-icon-' + reviewIndex);
+            likeButton.classList.remove('active');
+            dislikeButton.classList.remove('active');
+            feedbackStatus[reviewIndex] = {};
+
+            // Mark based on selected type
+            if (type === 'helpful') {
+                likeButton.classList.add('active');
+                likeIcon.textContent = '😊';
+                feedbackStatus[reviewIndex].helpful = true;
+                alert('你已標記這條評論為有幫助: ' + document.getElementById(reviewId).querySelector('.review-content').textContent);
+            } else if (type === 'unhelpful') {
+                dislikeButton.classList.add('active');
+                dislikeIcon.textContent = '😐';
+                feedbackStatus[reviewIndex].unhelpful = true;
+                alert('你已標記這條評論為無感: ' + document.getElementById(reviewId).querySelector('.review-content').textContent);
+            }
+        }
+
+        // Function to toggle between displaying selected reviews and comment section
+        function toggleReviewDisplay() {
+            const reviewsSection = document.querySelector('.product-reviews');
+            const commentSection = document.querySelector('.comment-section');
+
+            // Toggle visibility of the selected reviews and the comment section
+            if (reviewsSection.style.display === 'none') {
+                reviewsSection.style.display = 'block';
+                commentSection.style.display = 'none'; // Hide comment section when showing reviews
+            } else {
+                reviewsSection.style.display = 'none';
+                commentSection.style.display = 'block'; // Show comment section when hiding reviews
+            }
+        }
+
+        // Function to show the comment section
+        function showCommentSection() {
+            const commentSection = document.getElementById('comment-section');
+            commentSection.style.display = commentSection.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Function to submit the comment
+        function submitComment() {
+            const commentText = document.getElementById('comment-text').value;
+            if (commentText) {
+                alert('評論已提交: ' + commentText);
+                // You can add a function to handle storing the comment in your database here
+            }
+        }
+    </script>
+</body>
+</html>

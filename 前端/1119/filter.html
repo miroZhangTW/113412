@@ -1,0 +1,92 @@
+<!--篩選-->
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>篩選產品</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/filter.css') }}">
+    <script src="{{ url_for('static', filename='js/filter.js') }}"></script>
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; align-items: center;">
+            <img src="https://imgur.com/Akgc4pd.jpeg" alt="Beauty Buddy Logo" id="logo">
+            <h1>Beauty Buddy</h1>
+        </div>
+        <div class="nav">
+            <ul>
+                <li><a href="http://beautybuddy.ddns.net/">首頁</a></li>
+                <li><a href="http://beautybuddy.ddns.net/filter">篩選產品</a></li>   
+
+                {% if username %}
+                    <div class="user-menu">
+                        <a href="#" class="user-link">哈囉 {{ username }}&#128512</a>
+                        <div class="dropdown-content">
+                            <a href="/profile">個人檔案</a>
+                            <a href="/logout">登出</a>
+                        </div>
+                    </div>
+                {% else %}
+                    <li><a href="http://beautybuddy.ddns.net/login">登入/註冊</a></li>
+                {% endif %}
+
+            </ul>
+            <form action="/products" method="GET" style="display: inline;">
+                <input type="text" name="keyword" id="searchInput" placeholder="搜索..." required>
+                <button type="submit">搜索</button> <!-- 將按鈕設置為提交表單 -->
+            </form>
+        </div>
+    </div>
+
+    <br></br>
+
+    <br></br>
+
+    <main>
+        <div class="content">
+            <h1>篩選條件</h1>
+            <form action="{{ url_for('match') }}" method="GET">
+                <div class="dropdown">
+                    <label for="price">價格範圍:</label>
+                    <select id="price" name="price">
+                        <option value="全部範圍">全部範圍</option>
+                        <option value="1~250元">1~250元</option>
+                        <option value="251~400元">251~400元</option>
+                        <option value="401元以上">401元以上</option>
+                    </select>
+                </div>
+                <div class="dropdown">
+                    <label for="brand">品牌偏好:</label>
+                    <select id="brand" name="brand">
+                        <option value="全部品牌">全部品牌</option>
+                        {% for brand in brands %}
+                            <option value="{{ brand }}">{{ brand }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="dropdown">
+                    <label for="category">產品類別:</label>
+                    <select id="category" name="category">
+                        <option value="全部類別">全部類別</option>
+                        <option value="防曬">防曬</option>
+                        <option value="粉底液">粉底液</option>
+                        <option value="粉餅">粉餅</option>
+                    </select>
+                </div>
+                
+                {% if not username %}  <!-- 檢查用戶是否未登入 -->
+                    <p>你還沒登入哦～沒有帳號趕快註冊！來測試膚質查看您與產品的匹配度吧</p>
+                {% endif %}
+                
+                <button type="submit">下一步</button>
+            </form>
+        </div>
+        
+        
+    </main>
+
+   
+
+</body>
+</html>
