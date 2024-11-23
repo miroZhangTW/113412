@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會員登入 - Beauty Buddy</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; align-items: center;">
+            <img src="https://imgur.com/Akgc4pd.jpeg" alt="Beauty Buddy Logo" id="logo">
+            <h1>Beauty Buddy</h1>
+        </div>
+        <div class="nav">
+            <ul>
+                <li><a href="http://beautybuddy.ddns.net/">首頁</a></li>
+                <li><a href="http://beautybuddy.ddns.net/filter">篩選產品</a></li>   
+                <li><a href="http://beautybuddy.ddns.net/login">登入/註冊</a></li>
+            </ul>
+
+            
+            <form action="/products" method="GET" style="display: inline;">
+                <input type="text" name="keyword" id="searchInput" placeholder="搜索..." required>
+                <button type="submit">搜索</button> <!-- 將按鈕設置為提交表單 -->
+            </form>
+        </div>
+    </div>
+
+    <!-- Advertisement Popup Modal -->
+    <div id="adPopup" class="ad-popup-overlay">
+        <div class="ad-popup-content">
+            <h2>Heme新品上市! 點選連結查看</h2>
+            <a href="https://www.example.com">立即查看</a>
+            <img src="https://via.placeholder.com/728x90?text=Advertisement+Here" alt="Advertisement" class="ad-banner">
+            <button onclick="closeAdPopup()">關閉</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>會員登入</h2>
+        <form id="loginForm" method="POST">
+            <label for="email">電子郵件</label>
+            <input type="email" id="email" name="email" required>
+    
+            <label for="password">密碼</label>
+            <input type="password" id="password" name="password" required>
+    
+            <button type="submit">登入</button>
+        </form>
+        <div class="switch-link">
+            <p>忘記密碼了？<a href="http://beautybuddy.ddns.net/forgot_password">重設密碼</a></p> <!-- 忘記密碼連結 -->
+            <p>還沒有帳號？<a href="http://beautybuddy.ddns.net/register">立即註冊</a></p>
+        </div>
+
+    
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flashes">
+              {% for category, message in messages %}
+               <div class="alert alert-{{ category }}">{{ message }}</div>
+              {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+    </div>
+   
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+    <script>
+        // Function to show the advertisement popup
+        function showAdPopup() {
+            document.getElementById('adPopup').style.display = 'flex';
+        }
+
+        // Function to close the advertisement popup
+        function closeAdPopup() {
+            document.getElementById('adPopup').style.display = 'none';
+        }
+
+        // Display the advertisement after a delay (e.g., 2 seconds)
+        window.onload = function() {
+            setTimeout(showAdPopup, 2000); // 2-second delay
+        };
+    </script>
+
+</body>
+</html>

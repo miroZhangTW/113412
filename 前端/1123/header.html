@@ -1,0 +1,27 @@
+<div class="header">
+    <div style="display: flex; align-items: center;">
+        <img src="https://imgur.com/Akgc4pd.jpeg" alt="Beauty Buddy Logo" id="logo">
+        <h1>Beauty Buddy</h1>
+    </div>
+    <div class="nav">
+        <ul>
+            <li><a href="http://beautybuddy.ddns.net/">首頁</a></li>
+            <li><a href="http://beautybuddy.ddns.net/filter">篩選產品</a></li>
+            {% if username %}
+                <div class="user-menu">
+                    <a href="#" class="user-link">哈囉 {{ username }}&#128512</a>
+                    <div class="dropdown-content">
+                        <a href="/profile">個人檔案</a>
+                        <a href="/logout">登出</a>
+                    </div>
+                </div>
+            {% else %}
+                <li><a href="http://beautybuddy.ddns.net/login">登入/註冊</a></li>
+            {% endif %}
+        </ul>
+        <form action="/products" method="GET" style="display: inline;">
+            <input type="text" name="keyword" id="searchInput" placeholder="搜索..." required>
+            <button type="submit">搜索</button>
+        </form>
+    </div>
+</div>
